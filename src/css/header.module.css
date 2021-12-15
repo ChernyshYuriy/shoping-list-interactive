@@ -1,0 +1,35 @@
+.header{
+    background-color: rgba(122, 122, 122, 0.75);
+    height: 50px;
+    width: 100vw;
+}
+.row{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 100%;
+}
+.block{
+    padding: 0px 14px;
+    border-right: 1px solid rgba(0, 0, 0, 0.5);
+    height: 100%;
+    display: flex;
+    align-items: center;
+}
+.logout{
+    color: #d12626;
+}
+
+.user-account{
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.language{
+    color: rgb(55, 58, 255);
+}
+
+.block:first-child{
+    border-left: 1px solid rgba(0, 0, 0, 0.5);
+}

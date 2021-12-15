@@ -1,0 +1,186 @@
+import React, { Component } from "react";
+import { connect } from "react-redux";
+import Popup from "../components/ui/popup";
+import {
+  createAccount,
+  createShortAccount,
+  getShortUserList,
+  isUserAlreadyHaveAccount,
+  loginUser,
+} from "../store/userInfo";
+import "../css/form.css";
+import { t } from "i18next";
+import { changeLoading, changePopup } from "../store/appConfigData";
+
+class LoginUser extends Component {
+  state = {
+    popupFunctionalityStatus: "login",
+    nickName: null,
+    isLastActionSuccess: { status: true, massage: "" },
+  };
+
+  // constructor(props) {
+  //   super(props);
+  //   this.nickNameRef = React.createRef();
+  // }
+
+  componentDidMount(){
+    const localStorageNickName = JSON.parse(localStorage.getItem('nickName')) || '';
+    this.setState({nickName: localStorageNickName});
+    document.getElementById("nickName").value = localStorageNickName
+  }
+
+  async handleLoginAccount(e) {
+    e.preventDefault();
+    try{
+      const nickName = document.getElementById("nickName").value;
+      this.props.changeLoading({ status: true, message: 'checkingIsAccountCreated' })
+      await this.props.getShortUserList(false);
+      const selectedUser = isUserAlreadyHaveAccount(
+        nickName,
+        this.props.shortUserList
+      );
+      console.log(selectedUser, 'selectedUser');
+      if (
+        this.state.popupFunctionalityStatus === "login" &&
+        selectedUser.length !== 0
+      ) {
+        this.props.changeLoading({message: 'getUserData' })
+        await this.props.loginUser(selectedUser[0].userId);
+      } else if (
+        this.state.popupFunctionalityStatus === "login" &&
+        selectedUser.length === 0
+      ) this.setState({isLastActionSuccess: { status: false, massage: "loginFailed" }})
+      if (
+        this.state.popupFunctionalityStatus === "createAccount" &&
+        selectedUser.length === 0
+      ) {
+        this.props.changeLoading({message: 'creatingAccount' })
+        await this.props.createAccount({ nickName }, false);
+        this.props.changeLoading({message: 'creatingAccount' })
+        await this.props.createShortAccount({
+          nickName,
+          userId: this.props.userId,
+        });
+      } else if (
+        this.state.popupFunctionalityStatus === "createAccount" &&
+        selectedUser.length !== 0
+      ) this.setState({isLastActionSuccess: { status: false, massage: "createAccountFailed" }})
+    } finally {
+      this.props.changeLoading({ status: false, message: 'Data_processing' })
+    }
+
+
+      
+
+      
+    console.log(
+      this.props.userNickName,
+      this.props.userId,
+      "this.props.userNickName && this.props.userId"
+    );
+    if (this.props.userNickName && this.props.userId) {
+      console.log("closePopup");
+      this.props.changePopup({ visibility: false });
+    }
+  }
+
+  // async componentDidMount() {
+  //   // console.log(this.props.createAccount);
+  //   await this.props.getShortUserList();
+  //   console.log(
+  //     isUserAlreadyHaveAccount("DADA!@22", this.props.shortUserList),
+  //     `isUserAlreadyHaveAccount("DADA!@22", this.props.shortUserList)`
+  //   );
+  //   console.log(this.props.shortUserList);
+
+  //   console.log(isUserAlreadyHaveAccount, "isUserAlreadyHaveAccount");
+  //   if (isUserAlreadyHaveAccount.length === 0) {
+  //     await this.props.createAccount({ nickName: "DADA!@22" });
+  //     console.log("create", this.props.userId);
+  //     await this.props.createShortAccount({
+  //       nickName: "DADA!@22",
+  //       userId: this.props.userId,
+  //     });
+  //   }
+  //   if (this.props.userId) {
+  //     await this.props.loginUser(this.props.userId);
+  //   }
+  //   if (!!false) {
+  //     await this.props.loginUser("177F3563-77AA-4829-A30D-52FE8FEC73D2");
+  //   }
+  //   // this.props.createAccount()
+  // }
+
+  render() {
+    return (
+      <React.Fragment>
+        <Popup>
+          <form className="form" onSubmit={(e) => this.handleLoginAccount(e)}>
+            {/*  */}
+            <div className="form-block">
+              <label htmlFor="nickName">
+                {this.state.popupFunctionalityStatus === "login"
+                  ? t("login")
+                  : t("create_account")}
+              </label>
+              <input
+                type="text"
+                className="input"
+                name=""
+                // ref={this.nickNameRef}
+                id="nickName"
+                placeholder={t("enter_nickName")}
+              />
+              <div className="form-warning">{this.state.isLastActionSuccess.status ? null : t(this.state.isLastActionSuccess.massage)}</div>
+            </div>
+            <button className="btn">
+              {this.state.popupFunctionalityStatus === "login"
+                ? t("login")
+                : t("create_account")}
+            </button>
+          </form>
+          {this.state.popupFunctionalityStatus === "login" ? (
+            <div
+              className="link"
+              onClick={() => this.changePopupFunctionality("createAccount")}
+            >
+              {t("create_account")}
+            </div>
+          ) : (
+            <div
+              className="link"
+              onClick={() => this.changePopupFunctionality("login")}
+            >
+              {t("login")}
+            </div>
+          )}
+        </Popup>
+      </React.Fragment>
+    );
+  }
+
+  changePopupFunctionality(status) {
+    console.log(this.nickNameRef);
+    this.setState({
+      popupFunctionalityStatus: status,
+    });
+    this.setState({isLastActionSuccess: { status: true, massage: "" }})
+  }
+}
+function mapStateToProps(state) {
+  return {
+    shortUserList: state.appData.users.shortUserList,
+    userId: state.appData.users.objectId,
+    userNickName: state.appData.users.nickName,
+  };
+}
+
+export default connect(mapStateToProps, {
+  createAccount,
+  getShortUserList,
+  createShortAccount,
+  loginUser,
+  changePopup,
+  changeLoading
+})(LoginUser);

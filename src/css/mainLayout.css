@@ -1,0 +1,11 @@
+.container{
+    position: relative;
+    top: 0;
+    left: 0;
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+.clickable{
+    cursor: pointer;
+}
