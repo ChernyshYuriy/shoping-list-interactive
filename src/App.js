@@ -7,6 +7,9 @@ import store from "./store/configStore";
 // import Popup from "./components/ui/popup";
 import MainPage from "./pages/main";
 import MainLayout from "./components/Layouts/MainLayout";
+import ShoppingList from "./pages/shoppingList";
+import EditProducts from "./pages/editProducts";
+
 
 function App({ t }) {
   return (
@@ -27,6 +30,8 @@ function App({ t }) {
         <MainLayout>
           <Routes>
             <Route path="/" element={<MainPage />} />
+            <Route path="/edit-list" element={<ShoppingList />} />
+            <Route path="/edit-product-list" element={<EditProducts />} />
           </Routes>
         </MainLayout>
       </Provider>

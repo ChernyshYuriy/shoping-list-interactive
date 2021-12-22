@@ -3,13 +3,15 @@
   "Data_processing": "Data processing",
   "login": "Login",
   "create_account": "Create account",
-  "enter_nickName": "enter the nickname",
-  "loginFailed": "Wrong nickname",
+  "enter_nickName": "Nickname",
+  "enter_pinCode": "Pincode",
+  "loginFailed": "Wrong nickname or pin code",
   "createAccountFailed": "This nickname is already taken",
   "checkingIsAccountCreated": "Checking is yor account has been created before",
   "getUserData": "Getting data about user",
   "creatingAccount": "Creating your account",
   "select_language": "Select language",
   "account_settings": "Account setting",
-  "logout": "Logout"
+  "logout": "Logout",
+  "edit_product_list":"Edit product list"
 }

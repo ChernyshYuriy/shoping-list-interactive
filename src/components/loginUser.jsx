@@ -11,6 +11,7 @@ import {
 import "../css/form.css";
 import { t } from "i18next";
 import { changeLoading, changePopup } from "../store/appConfigData";
+import { coder } from "./mixins/coder";
 
 class LoginUser extends Component {
   state = {
@@ -25,22 +26,31 @@ class LoginUser extends Component {
   // }
 
   componentDidMount(){
+    // console.log(coder('1080', false), `coder('1080')`);
     const localStorageNickName = JSON.parse(localStorage.getItem('nickName')) || '';
     this.setState({nickName: localStorageNickName});
-    document.getElementById("nickName").value = localStorageNickName
+    if (document.getElementById("nickName")) document.getElementById("nickName").value = localStorageNickName
   }
 
   async handleLoginAccount(e) {
     e.preventDefault();
     try{
       const nickName = document.getElementById("nickName").value;
+      const pinCode = document.getElementById("pinCode").value;
       this.props.changeLoading({ status: true, message: 'checkingIsAccountCreated' })
       await this.props.getShortUserList(false);
       const selectedUser = isUserAlreadyHaveAccount(
         nickName,
+        pinCode,
         this.props.shortUserList
       );
       console.log(selectedUser, 'selectedUser');
+      console.log(!nickName && !pinCode, '!nickName && !pinCode');
+
+      if (!nickName || !pinCode || pinCode.length !== 4) {
+        this.setState({isLastActionSuccess: { status: false, massage: "wrong_fild_nickName_or_pinCode" }})
+        return
+      }
       if (
         this.state.popupFunctionalityStatus === "login" &&
         selectedUser.length !== 0
@@ -56,10 +66,11 @@ class LoginUser extends Component {
         selectedUser.length === 0
       ) {
         this.props.changeLoading({message: 'creatingAccount' })
-        await this.props.createAccount({ nickName }, false);
+        await this.props.createAccount({ nickName, pinCode: coder(pinCode) }, false);
         this.props.changeLoading({message: 'creatingAccount' })
         await this.props.createShortAccount({
           nickName,
+          pinCode :coder(pinCode),
           userId: this.props.userId,
         });
       } else if (
@@ -131,6 +142,15 @@ class LoginUser extends Component {
                 // ref={this.nickNameRef}
                 id="nickName"
                 placeholder={t("enter_nickName")}
+              />
+                            <input
+                type="password"
+                className="input"
+                name=""
+                maxLength="4"
+                // ref={this.nickNameRef}
+                id="pinCode"
+                placeholder={t("enter_pinCode")}
               />
               <div className="form-warning">{this.state.isLastActionSuccess.status ? null : t(this.state.isLastActionSuccess.massage)}</div>
             </div>

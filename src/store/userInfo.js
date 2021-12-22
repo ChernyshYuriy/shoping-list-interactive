@@ -1,14 +1,15 @@
-import { createSelector, createSlice } from "@reduxjs/toolkit";
+import { createSlice } from "@reduxjs/toolkit";
+import { coder } from "../components/mixins/coder";
 // import { useSelector } from "react-redux";
 import { apiCallBegan } from "./api";
-import { changeLoading } from "./appConfigData";
+// import { changeLoading } from "./appConfigData"; createSelector
 
 const user = createSlice({
   name: "user",
   initialState: {
     shortUserList: [],
     name: "",
-    userShoppingListsId: [],
+    userShoppingLists: [],
     userProductsList: [],
     objectId: null,
     nickName: "",
@@ -23,21 +24,35 @@ const user = createSlice({
       console.log(action.payload, "action.payload", user, "user");
       user.objectId = action.payload.objectId;
       user.nickName = action.payload.nickName;
-      if (!!action.payload.userShoppingListsId && action.payload.userShoppingListsId.length > 0) user.userShoppingListsId = action.payload.userShoppingListsId
-      if (!!action.payload.userProductsList && action.payload.userProductsList.length > 0) user.userProductsList = action.payload.userProductsList
-      if (!!action.payload.settings && Object.keys(action.payload.settings).length > 0) user.settings = action.payload.settings
+      if (
+        !!action.payload.userShoppingLists &&
+        action.payload.userShoppingLists.length > 0
+      )
+        user.userShoppingListsId = action.payload.userShoppingLists;
+      if (
+        !!action.payload.userProductsList &&
+        action.payload.userProductsList.length > 0
+      )
+        user.userProductsList = action.payload.userProductsList;
+      if (
+        !!action.payload.settings &&
+        Object.keys(action.payload.settings).length > 0
+      )
+        user.settings = action.payload.settings;
 
-      localStorage.setItem('nickName', JSON.stringify(action.payload.nickName))
+      localStorage.setItem("nickName", JSON.stringify(action.payload.nickName));
+    },
+    setNewProductsList(user, action) {
+      user.userProductsList = action.payload.userProductsList;
     },
     setShortUserList: (user, action) => {
       console.log(user.shortUserList, action.payload, "user");
       user.shortUserList = action.payload;
-    }
+    },
   },
 });
 
-
-const { afterLogin, setShortUserList } = user.actions;
+const { afterLogin, setShortUserList, setNewProductsList } = user.actions;
 
 export const getShortUserList = () =>
   apiCallBegan({
@@ -76,17 +91,41 @@ export const createShortAccount = (formData) =>
     // onFinish: changeLoading.type,
   });
 
-  // export const isUserAlreadyHaveAccount  = this.props.shortUserList.filter((user) => {
-  //   if (user.nickName === "DADA!@22") {
-  //     return user;
-  //   }
-  // });
+export const createList = (list) =>
+  apiCallBegan({
+    url: "usersLists",
+    method: "post",
+    data: list,
+    // onStart: changeLoading.type,
+    // onFinish: changeLoading.type,
+  });
 
+export const changeProductList = (id, list) =>
+  apiCallBegan({
+    url: `UsersData/${id}`,
+    method: "put",
+    data: list,
+    onSuccess: setNewProductsList.type,
+    // onStart: changeLoading.type,
+    // onFinish: changeLoading.type,
+  });
 
-  export const isUserAlreadyHaveAccount = (nickName, userList) => {
-    console.log(userList, 'shortUserList');
-    return userList.filter(user => user.nickName === nickName);
-  }
+// export const isUserAlreadyHaveAccount  = this.props.shortUserList.filter((user) => {
+//   if (user.nickName === "DADA!@22") {
+//     return user;
+//   }
+// });
+
+export const isUserAlreadyHaveAccount = (nickName, pinCode, userList) => {
+  console.log(userList, "shortUserList");
+
+  return userList
+    ? userList.filter(
+        (user) => user.nickName === nickName &&
+        coder(user.pinCode, true) === pinCode
+      )
+    : [];
+};
 // export const getShortUserList = (formData) =>
 
 export default user;

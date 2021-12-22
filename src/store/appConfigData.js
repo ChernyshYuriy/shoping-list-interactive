@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import user from "./userInfo";
+// import user from "./userInfo";
 
 const appConfigData = createSlice({
   name: "appConfigData",
