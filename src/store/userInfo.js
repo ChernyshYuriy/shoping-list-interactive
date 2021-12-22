@@ -2,7 +2,6 @@ import { createSlice } from "@reduxjs/toolkit";
 import { coder } from "../components/mixins/coder";
 // import { useSelector } from "react-redux";
 import { apiCallBegan } from "./api";
-// import { changeLoading } from "./appConfigData"; createSelector
 
 const user = createSlice({
   name: "user",
@@ -59,8 +58,6 @@ export const getShortUserList = () =>
     url: "shortLoginSystem",
     method: "get",
     onSuccess: setShortUserList.type,
-    // onStart: changeLoading.type,
-    // onFinish: changeLoading.type,
   });
 
 export const createAccount = (formData) =>
@@ -69,8 +66,6 @@ export const createAccount = (formData) =>
     method: "post",
     data: formData,
     onSuccess: afterLogin.type,
-    // onStart: changeLoading.type,
-    // onFinish: changeLoading.type,
   });
 
 export const loginUser = (id) =>
@@ -78,8 +73,6 @@ export const loginUser = (id) =>
     url: `UsersData/${id}`,
     method: "get",
     onSuccess: afterLogin.type,
-    // onStart: changeLoading.type,
-    // onFinish: changeLoading.type,
   });
 
 export const createShortAccount = (formData) =>
@@ -87,8 +80,6 @@ export const createShortAccount = (formData) =>
     url: "shortLoginSystem",
     method: "post",
     data: formData,
-    // onStart: changeLoading.type,
-    // onFinish: changeLoading.type,
   });
 
 export const createList = (list) =>
@@ -96,8 +87,6 @@ export const createList = (list) =>
     url: "usersLists",
     method: "post",
     data: list,
-    // onStart: changeLoading.type,
-    // onFinish: changeLoading.type,
   });
 
 export const changeProductList = (id, list) =>
@@ -106,8 +95,6 @@ export const changeProductList = (id, list) =>
     method: "put",
     data: list,
     onSuccess: setNewProductsList.type,
-    // onStart: changeLoading.type,
-    // onFinish: changeLoading.type,
   });
 
 // export const isUserAlreadyHaveAccount  = this.props.shortUserList.filter((user) => {
@@ -121,8 +108,8 @@ export const isUserAlreadyHaveAccount = (nickName, pinCode, userList) => {
 
   return userList
     ? userList.filter(
-        (user) => user.nickName === nickName &&
-        coder(user.pinCode, true) === pinCode
+        (user) =>
+          user.nickName === nickName && coder(user.pinCode, true) === pinCode
       )
     : [];
 };
