@@ -10,7 +10,8 @@ const appConfigData = createSlice({
 
     language: "en",
     popup: {
-      visibility: true,
+      visibility: false,
+      validationError: '',
       header: {
         isVisible: false,
         Title: "Popup",
@@ -21,6 +22,9 @@ const appConfigData = createSlice({
     changeLoadingStatus: (data, action) => {
       const { status = data.loading.status, message = "Data_processing" } = action.payload;
       data.loading = { status, message };
+    },
+    setValidationError: (data, action) => {
+      data.popup.validationError = JSON.parse(action.payload).message || JSON.parse(action.payload).error
     },
     changePopupParameters: (data, action) => {
       for (const key in action.payload) {
@@ -33,6 +37,7 @@ const appConfigData = createSlice({
 export const {
   changeLoadingStatus: changeLoading,
   changePopupParameters: changePopup,
+  setValidationError: validationError,
 } = appConfigData.actions;
 
 export default appConfigData;

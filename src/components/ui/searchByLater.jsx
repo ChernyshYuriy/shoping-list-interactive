@@ -9,7 +9,7 @@ class SearchByLater extends Component {
     onSearch(e) {
         e.preventDefault();
         const later = document.getElementById("searchLaterInput").value;
-        const searchBlock = document.getElementById(`#${later}`);
+        const searchBlock = document.getElementById(`#${later.toLowerCase()}`);
         if (!!searchBlock) {
           document.getElementsByTagName("html")[0].scrollTop =
             searchBlock.offsetTop + 60;

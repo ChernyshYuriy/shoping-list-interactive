@@ -5,6 +5,7 @@
   "create_account": "Create account",
   "enter_nickName": "Nickname",
   "enter_pinCode": "Pincode",
+  "enter_email": "Email",
   "loginFailed": "Wrong nickname or pin code",
   "createAccountFailed": "This nickname is already taken",
   "checkingIsAccountCreated": "Checking is yor account has been created before",

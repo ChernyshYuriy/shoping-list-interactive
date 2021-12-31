@@ -10,7 +10,7 @@ import Styles from "../css/productListEdit.module.css";
 import { t } from "i18next";
 import Popup from "./ui/popup";
 import { changeLoading, changePopup } from "../store/appConfigData";
-import { changeProductList } from "../store/userInfo";
+import { addProductToList, changeProductList } from "../store/userInfo";
 import SearchByLater from "./ui/searchByLater";
 
 
@@ -33,6 +33,7 @@ class ProductListEdit extends Component {
     //     { title: "   Дsafsafgdag a   " },
     //   ]),
     // });
+    
     await this.setState({productList: this.props.userProductsList})
     await this.setState({
       productList: transformedList(this.state.productList),
@@ -43,14 +44,15 @@ class ProductListEdit extends Component {
     });
   }
 
-  onAddProduct(e) {
+  async onAddProduct(e) {
     e.preventDefault();
     const form = document.getElementById("add-product-form");
     const name = document.getElementById("product_name").value;
     const desc = document.getElementById("product_desc").value;
     const newProduct = { title: name, desc }
-    const isElementCreated = this.state.productList.filter(product => product.title === newProduct.title && product.desc === newProduct.desc)
+    const isElementCreated = this.state.productList.filter(product => product.title.toLowerCase() === newProduct.title.toLowerCase() && product.desc === newProduct.desc)
     console.log(isElementCreated, 'isElementCreated');
+    console.log(newProduct.title !== "" && !!newProduct.title && isElementCreated.length === 0 && isProductHaveCorrectTitle(newProduct.title), 'newProduct.title !== "" && !!newProduct.title && isElementCreated.length === 0 && isProductHaveCorrectTitle(newProduct.title)');
     if (newProduct.title !== "" && !!newProduct.title && isElementCreated.length === 0 && isProductHaveCorrectTitle(newProduct.title)) {
       this.setState({
         productList: transformedList([
@@ -60,7 +62,8 @@ class ProductListEdit extends Component {
       });
 
       form.reset();
-      this.props.changePopup({ visibility: false });
+      await this.props.addProductToList(newProduct)
+      await this.props.changePopup({ visibility: false });
     }else if (!isProductHaveCorrectTitle(newProduct.title)){
       this.setState({popupValidation: 'title_must_start_from_number_or_latin_or_cyrillic_later '})
     }else if (isElementCreated.length > 0){
@@ -81,6 +84,12 @@ class ProductListEdit extends Component {
   };
 
   async componentDidUpdate(prevProps, prevState) {
+    console.log(this.props.userProductsList, 'this.props.userProductsList 111111111111111111111111111111111111111111111111');
+
+    // if (!prevState.productList.length && !this.props.userProductsList.length) {
+    //   await this.setState({productList: this.props.userProductsList})
+    // }
+
     if (prevState.productList !== this.state.productList) {
       console.log(
         this.state,
@@ -166,6 +175,6 @@ function mapStateToProps(state) {
   };
 }
 
-export default connect(mapStateToProps, { changePopup, changeLoading, changeProductList })(
+export default connect(mapStateToProps, { changePopup, changeLoading, changeProductList, addProductToList })(
   ProductListEdit
 );
