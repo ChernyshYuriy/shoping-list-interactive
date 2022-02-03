@@ -66,17 +66,18 @@ class ShoppingListBlock extends Component {
           <div className={Styles.title}>{title}</div>
           {this.formattingDate(lastEdit)}
           <div className={Styles["btn-group"]}>
-          <button
-            onClick={(e) =>
-              onOpenShoppingList(e, id, `/edit-shopping-list?${id}`)
-            }
-          >
-            Edit
-          </button>
-          <button onClick={(e) => onDeleteShoppingList(e, id)}>Delete</button>
+            <button
+            className={`${Styles.btn} ${Styles['btn-edit']}`}
+              onClick={(e) =>
+                onOpenShoppingList(e, id, `/edit-shopping-list?${id}`)
+              }
+            >
+              Edit
+            </button>
+            <button
+            className={`${Styles.btn} ${Styles['btn-delete']}`} onClick={(e) => onDeleteShoppingList(e, id)}>Delete</button>
+          </div>
         </div>
-        </div>
-
       </div>
     );
   }

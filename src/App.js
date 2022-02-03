@@ -13,7 +13,6 @@ import { getUserData } from "./store/userInfo";
 
 import { changePopup } from "./store/appConfigData";
 import CreateProductList from "./pages/createShoppingList";
-import history from "./history";
 import { useEffect } from "react";
 import EditShoppingList from './pages/editShoppingList';
 // afterLogin loginUser changeLoading
@@ -90,6 +89,7 @@ function App({ t }) {
   };
   useEffect(() => {
     loginUserAuto();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   console.log(store.getState(), "store");

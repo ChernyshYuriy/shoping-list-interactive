@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import LoginUser from "../components/loginUser";
-import ShoppingListDisplay from "../components/shoping-list-display";
 import { changePopup } from "../store/appConfigData";
 import ShoppingListContainer from './../components/shoping-lists-container';
 class MainPage extends Component {

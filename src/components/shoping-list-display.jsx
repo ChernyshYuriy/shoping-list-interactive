@@ -133,7 +133,7 @@ class ShoppingListDisplay extends Component {
       <React.Fragment>
         <div className={Styles["lists-grid"]}>
           <div className={Styles.list}>
-            <Link to={"/create-product-list"} className={`${Styles.content}`}>
+            <Link to={"/create-product-list"} className={`${Styles.content} ${Styles.title}`}>
               {t("Create new list")}
             </Link>
           </div>

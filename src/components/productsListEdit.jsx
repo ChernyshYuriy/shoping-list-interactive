@@ -19,12 +19,11 @@ import {
 import SearchByLater from "./ui/searchByLater";
 import Checkbox from "./ui/checkbox";
 import BottomActionBtn from "./shoppingList/bottomActionBtn";
-import shoppingList, {
+import {
   editShoppingList,
   getShoppingList,
 } from "./../store/shoppingList";
 import { Link } from "react-router-dom";
-import EditProducts from "./../pages/editProducts";
 
 class ProductListEdit extends Component {
   // constructor(props) {
