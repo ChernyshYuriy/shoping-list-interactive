@@ -23,9 +23,9 @@ class AppHeader extends Component {
 
       <div className={Styles.header}>
         <div className={`container ${Styles.row}`}>
-          <div>Logo</div>
+          <Link className="link logo" to={'/'}>Manage easily</Link>
           <div className={Styles.row}>
-          <Link to={'/edit-product-list'} className={`${Styles.block} ${Styles.language} clickable`}>
+          <Link to={'/edit-products'} className={`${Styles.block} ${Styles.language} clickable`}>
               {t("edit_product_list")}
             </Link>
             <div className={`${Styles.block} ${Styles.language} clickable`}>

@@ -28,14 +28,14 @@ const user = createSlice({
         "action.payload action.payload action.payload action.payload action.payload"
       );
       // user = Object.assign(user, action.payload);
-      // console.log(action.payload, "action.payload", user, "user");
+      console.log(action.payload, "action.payload", userData, "user");
       // const userData = JSON.parse(action.payload)
       user.objectId = userData.objectId;
       user.nickName = userData.username;
       user.email = userData.email;
 
       if (!!userData.userShoppingLists && userData.userShoppingLists.length > 0)
-        user.userShoppingListsId = userData.userShoppingLists;
+        user.userShoppingLists = userData.userShoppingLists;
       if (!!userData.userProductsList && userData.userProductsList.length > 0)
         user.userProductsList = userData.userProductsList;
       if (!!userData.settings && Object.keys(userData.settings).length > 0)
@@ -47,7 +47,7 @@ const user = createSlice({
       user.nickName = "";
       user.email = "";
 
-      user.userShoppingListsId = [];
+      user.userShoppingList = [];
       user.userProductsList = [];
       user.settings = {};
       localStorage.removeItem("userInfo");
@@ -59,6 +59,33 @@ const user = createSlice({
     addProductToList(user, action) {
       console.log(action.payload, "action.payload");
       user.userProductsList = [...user.userProductsList, action.payload];
+    },
+    addShoppingList(user, action) {
+      console.log(
+        action.payload,
+        "action.payload ~!@`````11111111111111111111111"
+      );
+      const { title, lastEdit, objectId } = action.payload;
+      user.userShoppingLists = [
+        ...user.userShoppingLists,
+        { id: objectId, title, lastEdit },
+      ];
+    },
+    deleteShoppingList(user, action) {
+      console.log(
+        JSON.parse(action.payload).objectId,
+        // [
+        //   {
+        //     id: "1oDrRzKASK",
+        //     title: "New shopping list",
+        //     lastEdit: 1642780837688,
+        //   },
+        // ].filter((list) => (list.id === JSON.parse(action.payload).objectId)),
+        "action.payload"
+      );
+      user.userShoppingLists = user.userShoppingLists.filter(
+        (list) => (list.id !== JSON.parse(action.payload).objectId)
+      );
     },
     // setShortUserList: (user, action) => {
     //   console.log(user.shortUserList, action.payload, "user");
@@ -72,7 +99,9 @@ export const {
   // setShortUserList,
   setNewProductsList,
   addProductToList,
-  logout
+  logout,
+  addShoppingList,
+  deleteShoppingList,
 } = user.actions;
 
 // export const getShortUserList = () =>
@@ -139,6 +168,36 @@ export const getUserData = (id) =>
     userId: id,
     onSuccess: afterLogin.type,
   });
+
+export const createNewProductList = (data) =>
+  apiCallBegan({
+    url: "userShoppingLists",
+    data,
+    method: "post",
+    onSuccess: addShoppingList.type,
+  });
+
+export const deleteProductList = (id) =>
+  apiCallBegan({
+    url: "userShoppingLists",
+    id,
+    method: "delete",
+    onSuccess: deleteShoppingList.type,
+  });
+
+export const updateShoppingListInUserData = (id, list) =>
+  apiLoginCallBegan({
+    method: "updateUser",
+    userId: id,
+    data: list,
+  });
+
+// export const deleteShoppingListFromUserData = (id, list) =>
+// apiLoginCallBegan({
+//   method: "updateUser",
+//   userId: id,
+//   data: list,
+// });
 
 // export const isUserAlreadyHaveAccount  = this.props.shortUserList.filter((user) => {
 //   if (user.nickName === "DADA!@22") {

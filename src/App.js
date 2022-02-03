@@ -12,6 +12,10 @@ import EditProducts from "./pages/editProducts";
 import { getUserData } from "./store/userInfo";
 
 import { changePopup } from "./store/appConfigData";
+import CreateProductList from "./pages/createShoppingList";
+import history from "./history";
+import { useEffect } from "react";
+import EditShoppingList from './pages/editShoppingList';
 // afterLogin loginUser changeLoading
 function App({ t }) {
   // const Parse = require("parse");
@@ -84,8 +88,11 @@ function App({ t }) {
       dispatch(changePopup({ visibility: true }));
     }
   };
+  useEffect(() => {
+    loginUserAuto();
+  }, []);
 
-  loginUserAuto();
+  console.log(store.getState(), "store");
 
   return (
     <div className="App">
@@ -105,8 +112,24 @@ function App({ t }) {
         <MainLayout>
           <Routes>
             <Route path="/" element={<MainPage />} />
-            <Route path="/edit-list" element={<ShoppingList />} />
-            <Route path="/edit-product-list" element={<EditProducts />} />
+            <Route path="/edit-shopping-list" element={<EditShoppingList />} />
+            <Route path="/edit-products" element={<EditProducts />} />
+            <Route
+              path="/create-product-list"
+              element={<CreateProductList />}
+            />
+            <Route
+              path="/shopping-list"
+              element={
+                <ShoppingList
+                  activeListId={
+                    store.getState().appData.shoppingList.activeListId
+                  }
+                />
+              }
+              
+            />
+            {/* edit-shopping-list */}
           </Routes>
         </MainLayout>
       </Provider>

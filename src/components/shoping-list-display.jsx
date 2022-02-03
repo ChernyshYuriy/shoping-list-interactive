@@ -1,34 +1,168 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { createList } from "../store/userInfo";
-import '../css/shopping-list-display.css'
+import {
+  // createList,
+  updateShoppingListInUserData,
+  deleteProductList,
+} from "../store/userInfo";
+
+import Styles from "../css/shopping-lists.module.css";
+import { Link } from "react-router-dom";
+// import { getShoppingList } from "../store/shoppingList";
+import ShoppingListBlock from "./shopping-list-block";
+import { t } from "i18next";
+import { changeLoading } from "../store/appConfigData";
+import { setActiveListId, getShoppingList } from "../store/shoppingList";
 
 class ShoppingListDisplay extends Component {
+  // const nav = useNavigate();
+
+  // changePage = (isEditList, id = null) =>  {
+  //   alert(isEditList);
+  //   nav(isEditList);
+  // }
   // handleCreateList = () => {
   //     this.props.createList()
   // }
+  // handlerCreateNewList = () => {};
+
+  // handlerOpenShoppingList = async (id) => {
+  //   // await this.props.getShoppingList({method: 'equalTo', data: id})
+  //   // const nav = this.props.useNavigate();
+  // };
+  // componentDidMount () {
+  // }
+
+  state = {
+    nextPageUrl: "/",
+  };
+
+  componentDidMount() {
+    console.log(this.props.list, this.props.id, "this.props.list");
+  }
+  async componentDidUpdate(prevProps) {
+    if (
+      prevProps.shoppingList !== this.props.shoppingList &&
+      !!this.props.shoppingList.length
+    ) {
+      // console.log(
+      //   this.state.nextPageUr,
+      //   this.props.shoppingList,
+      //   "this.props.shoppingList 111111111"
+      // );
+      // console.log(
+      //   this.props.userShoppingListId,
+      //   this.state.nextPageUrl,
+      //   "changeID"
+      // );
+      // console.log(history, 'history');
+      // await history.push(`/product-list?listId=${this.props.userShoppingListId}`)
+      // let id = !this.state.nextPageIsEdit ? this.props.userShoppingListId : "";
+      // console.log("REDIRECT");
+      // alert("!!!!!" + this.state.nextPageUrl);
+      this.props.nav(this.state.nextPageUrl);
+      // console.log("REDIRECT END");
+    }
+    // if (prevProps !== this.props) {
+    //   console.log(this.props.shoppingList, "this.props");
+    // }
+    if (prevProps.userShoppingList !== this.props.userShoppingList) {
+      console.log("userShoppingList IS CHANGED");
+      try {
+        await this.props.changeLoading({
+          status: true,
+          message: "attach to account shopping list",
+        });
+
+        await this.props.updateShoppingListInUserData(this.props.userId, {
+          userShoppingLists: this.props.userShoppingList,
+        });
+      } finally {
+        this.props.changeLoading({ status: false, message: "Data_processing" });
+      }
+    }
+  }
+
+  deleteShoppingList = async (e, id) => {
+    e.stopPropagation(); //  this.props.updateShoppingListInUserData(this.props.userId, {userShoppingLists: []})
+    try {
+      await this.props.changeLoading({
+        status: true,
+        message: "attach to account shopping list",
+      });
+
+      await this.props.deleteProductList(id);
+      await this.props.changeLoading({
+        message: "attach to account shopping list",
+      });
+
+      await this.props.updateShoppingListInUserData(this.props.userId, {
+        userShoppingLists: this.props.userShoppingList.filter(
+          (list) => list.id !== id
+        ),
+      });
+    } finally {
+      this.props.changeLoading({ status: false, message: "Data_processing" });
+    }
+  };
+
+  handlerOpenShoppingList = async (e, id, url) => {
+    // console.log(e, "event");
+    // new Promise((resolve) => {    });
+    e.stopPropagation();
+    // await dispatch(
+    await this.setState({ nextPageUrl: url });
+    // alert(this.state.nextPageUrl);
+
+    await this.props.setActiveListId(id);
+
+    await this.props.getShoppingList([
+      { method: "equalTo", data: id, key: "objectId" },
+    ]);
+    // );
+    // console.log(dispatch(setActiveListId(id)));
+  };
 
   render() {
+    console.log(
+      this.props.userShoppingList,
+      "this.props.userShoppingList this.props.userShoppingList"
+    );
+
     return (
       <React.Fragment>
-        <div className="lists-grid">
-          <div className="list">Create new list</div>
-          <div className="list">Create new list</div>
+        <div className={Styles["lists-grid"]}>
+          <div className={Styles.list}>
+            <Link to={"/create-product-list"} className={`${Styles.content}`}>
+              {t("Create new list")}
+            </Link>
+          </div>
 
-          <div className="list">Create new list</div>
-
-          <div className="list">Create new list</div>
-
-          <div className="list">Create new list</div>
-
-          <div className="list">Create new list</div>
-
-          <div className="list">Create new list</div>
+          {/* <div className="list">Create new list</div>
+    
+            <div className="list">Create new list</div>
+    
+            <div className="list">Create new list</div>
+    
+            <div className="list">Create new list</div>
+    
+            <div className="list">Create new list</div>
+    
+            <div className="list">Create new list</div> */}
 
           {/* <div>{this.props.userShoppingListId}</div> */}
           {this.props.userShoppingList
             ? this.props.userShoppingList.map((list) => {
-                return <div>{list.title}</div>;
+                return (
+                  <div key={list.id}>
+                    <ShoppingListBlock
+                      key={list.id}
+                      onDeleteShoppingList={this.deleteShoppingList}
+                      onOpenShoppingList={this.handlerOpenShoppingList}
+                      list={list}
+                    />
+                  </div>
+                );
               })
             : null}
         </div>
@@ -37,12 +171,28 @@ class ShoppingListDisplay extends Component {
   }
 }
 
+// function mapStateToProps(state) {
+//   return {
+//     userShoppingList: state.appData.users.userShoppingLists,
+//   };
+// }
+
+// export default connect(mapStateToProps, {
+//   createList,
+//   // getShoppingList,
+// })(ShoppingListDisplay);
 function mapStateToProps(state) {
   return {
+    userShoppingListId: state.appData.shoppingList.activeListId,
+    shoppingList: state.appData.shoppingList.activeShoppingList,
+    userId: state.appData.users.objectId,
     userShoppingList: state.appData.users.userShoppingLists,
   };
 }
-
 export default connect(mapStateToProps, {
-  createList,
+  changeLoading,
+  updateShoppingListInUserData,
+  deleteProductList,
+  setActiveListId,
+  getShoppingList,
 })(ShoppingListDisplay);

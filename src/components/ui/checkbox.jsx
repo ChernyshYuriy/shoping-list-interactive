@@ -4,7 +4,7 @@ import Styles from "../../css/checkbox.module.css";
 function Checkbox(props) {
   return (
     <div className={Styles.checkbox}>
-      {props.status ? (
+      {props.status === true ? (
         <svg
           className={Styles["checkbox-icon"]}
           xmlns="http://www.w3.org/2000/svg"

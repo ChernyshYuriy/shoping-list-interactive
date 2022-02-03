@@ -73,22 +73,25 @@ const alphabetWestEU = [
   "6",
   "7",
   "8",
-  "9"
+  "9",
 ];
 
 const allAlphabet = alphabetEng.concat(alphabetWestEU);
 
-export const isProductHaveCorrectTitle = title => {
-  console.log(title, 'title');
-  const firstLater = title.trim()[0].toLowerCase()
-  console.log(typeof(firstLater), firstLater, 'firstLater');
-  console.log(allAlphabet.includes(firstLater), 'allAlphabet.include(firstLater)');
+export const isProductHaveCorrectTitle = (title) => {
+  console.log(title, "title");
+  const firstLater = title.trim()[0].toLowerCase();
+  console.log(typeof firstLater, firstLater, "firstLater");
+  console.log(
+    allAlphabet.includes(firstLater),
+    "allAlphabet.include(firstLater)"
+  );
 
   return allAlphabet.includes(firstLater);
-}
+};
 
 export const transformedList = (list) => {
-  let id = 0;
+  let id = 1;
   console.log(list, "copyList");
   const newList = [];
   list.forEach((item) => {
@@ -104,7 +107,6 @@ export const transformedList = (list) => {
 };
 
 export const getAllFirstLater = (list) => {
-
   //char[] alphabet =
 
   //   console.log(alphabetEng, alphabetWestEU);

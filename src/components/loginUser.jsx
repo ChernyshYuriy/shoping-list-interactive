@@ -172,7 +172,7 @@ class LoginUser extends Component {
   render() {
     return (
       <React.Fragment>
-        <Popup>
+        <Popup closureActive={false}>
           <form className="form" onSubmit={(e) => this.handleLoginAccount(e)}>
             {/*  */}
             <div className="form-block">

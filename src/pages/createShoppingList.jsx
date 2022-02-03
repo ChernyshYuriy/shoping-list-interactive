@@ -1,17 +1,19 @@
 import React, { Component } from "react";
 import ProductListEdit from "../components/productsListEdit";
 
-class EditProducts extends Component {
+class CreateProductList extends Component {
   render() {
     return (
       <React.Fragment>
         <ProductListEdit
           config={{
-            showTitle: false,
-            editTitle: false,
+            showTitle: true,
+            editTitle: true,
+            showCheckbox: true,
             activeButtons: {
               addProduct: true,
               saveChanges: true,
+              createList: true
             },
           }}
         />
@@ -20,4 +22,4 @@ class EditProducts extends Component {
   }
 }
 
-export default EditProducts;
+export default CreateProductList;
