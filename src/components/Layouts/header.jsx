@@ -2,19 +2,18 @@
 import { t } from "i18next";
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { Link  } from "react-router-dom";
+import { Link } from "react-router-dom";
 import Styles from "../../css/header.module.css";
 import "../../css/mainLayout.css";
 import { changeLoading, changePopup } from "../../store/appConfigData";
 import { logout } from "../../store/userInfo";
 class AppHeader extends Component {
-
-   logoutAccount = async () => {
+  logoutAccount = async () => {
     this.props.changeLoading({ status: true, message: "Logout_user" });
     await this.props.logout();
-    await this.props.changePopup({visibility: true})
+    await this.props.changePopup({ visibility: true });
     this.props.changeLoading({ status: false, message: "Data_processing" });
-  }
+  };
 
   render() {
     return (
@@ -23,9 +22,11 @@ class AppHeader extends Component {
 
       <div className={Styles.header}>
         <div className={`container ${Styles.row}`}>
-          <Link className="link logo" to={'/'}>Manage easily</Link>
+          <Link className="link logo" to={"/"}>
+            Manage easily
+          </Link>
           <div className={Styles.row}>
-          <Link to={'/edit-products'} className={`${Styles.block} ${Styles.language} clickable`}>
+            <Link to={"/edit-products"} className={`${Styles.block} clickable`}>
               {t("edit_product_list")}
             </Link>
             <div className={`${Styles.block} ${Styles.language} clickable`}>
@@ -37,7 +38,11 @@ class AppHeader extends Component {
               <div>{this.props.userNickName}</div>
               <div>{t("account_settings")}</div>
             </div>
-            <Link to={'/'} onClick={this.logoutAccount} className={`${Styles.block} ${Styles.logout} clickable`}>
+            <Link
+              to={"/"}
+              onClick={this.logoutAccount}
+              className={`${Styles.block} ${Styles.logout} clickable`}
+            >
               {t("logout")}
             </Link>
           </div>
@@ -51,7 +56,9 @@ function mapStateToProps(state) {
     userNickName: state.appData.users.nickName,
   };
 }
-export default connect(mapStateToProps, {logout, changeLoading, changePopup})(AppHeader);
+export default connect(mapStateToProps, { logout, changeLoading, changePopup })(
+  AppHeader
+);
 
 // function AppHeader(props) {
 //   return (

@@ -2,6 +2,7 @@ import { useSelector } from "react-redux";
 import StylesElem from "../../css/popup.module.css";
 import { changePopup } from "../../store/appConfigData";
 import { useDispatch } from "react-redux";
+import React from 'react';
 
 function Popup(props) {
   const popupData = useSelector((state) => state.appConfig.popup);
@@ -21,7 +22,7 @@ function Popup(props) {
   };
 
   return (
-    <div>
+    <React.Fragment>
       {!!popupData.visibility ? (
         <div
           onClick={(e) => closePopup(e)}
@@ -31,10 +32,10 @@ function Popup(props) {
           <div className={StylesElem.popup}>
             {popupData.header.isVisible ? (
               <header className={StylesElem.header}>
-                popupData.header.Title
+                {popupData.header.Title}
               </header>
             ) : null}
-            <div>{props.children}</div>
+            <div className={StylesElem['popup__content']}>{props.children}</div>
             {props.closureActive ? (
               <div
                 onClick={() => dispatch(changePopup({ visibility: false }))}
@@ -59,7 +60,7 @@ function Popup(props) {
           </div>
         </div>
       ) : null}
-    </div>
+    </React.Fragment>
   );
 }
 

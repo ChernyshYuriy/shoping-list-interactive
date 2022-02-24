@@ -9,6 +9,7 @@ class EditProducts extends Component {
           config={{
             showTitle: false,
             editTitle: false,
+            showProductActions: true,
             activeButtons: {
               addProduct: true,
               saveChanges: true,

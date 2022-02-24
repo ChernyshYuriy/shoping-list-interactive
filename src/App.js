@@ -10,7 +10,7 @@ import MainLayout from "./components/Layouts/MainLayout";
 import ShoppingList from "./pages/shoppingList";
 import EditProducts from "./pages/editProducts";
 import { getUserData } from "./store/userInfo";
-
+import './App.css'
 import { changePopup } from "./store/appConfigData";
 import CreateProductList from "./pages/createShoppingList";
 import { useEffect } from "react";

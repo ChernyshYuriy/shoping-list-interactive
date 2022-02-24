@@ -10,6 +10,7 @@ class CreateProductList extends Component {
             showTitle: true,
             editTitle: true,
             showCheckbox: true,
+            showProductActions: true,
             activeButtons: {
               addProduct: true,
               saveChanges: true,
