@@ -14,4 +14,13 @@
 .link{
     color: blue;
     text-decoration: none;
+    width: max-content;
 }
+
+@media screen and (max-width: 1000px) {
+    .header {
+        flex-direction: column-reverse;
+        margin-bottom: 10px;
+        font-size: 18px;
+    }
+  }

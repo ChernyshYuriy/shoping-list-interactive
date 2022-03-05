@@ -14,9 +14,9 @@
   display: block;
   height: max-content;
   /* width: min(300px, 100%); */
-  width: clamp(310px, 30vw, 800px);
+  width: clamp(310px, 40vw, 800px);
   min-height: min-content;
-  background-color: rgb(216, 216, 216);
+  background-color: rgb(230, 230, 230);
   position: absolute;
   top: 50%;
   left: 50%;
@@ -68,4 +68,11 @@
 }
 .close-icon:hover {
   fill: #c00c00;
+}
+
+@media screen and (max-width: 420px) {
+  .popup {
+    width: clamp(280px, 40vw, 800px);
+    padding: 10px;
+  }
 }

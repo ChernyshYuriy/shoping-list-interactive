@@ -4,11 +4,11 @@
     left: 0;
     max-width: 1400px;
     margin: 0 auto;
-    padding-bottom: 20px;
+    padding: 0px 15px 20px;
 }
 
 .link{
-    color: #000;
+    color: rgb(12, 32, 218);
     text-decoration: none;
 }
 .logo{
@@ -21,3 +21,14 @@
 .clickable{
     cursor: pointer;
 }
+  
+  .mobile-menu .link{
+    color: #000;
+  }
+  
+  .logo-mobile{
+    color: #000;
+    margin-bottom: 20px;
+    display: block;
+    font-size: 32px;
+  }

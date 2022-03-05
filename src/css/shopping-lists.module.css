@@ -6,6 +6,7 @@
   justify-content: center;
   row-gap: 60px;
   column-gap: 20px;
+  padding-bottom: 40px;
 }
 
 .list {
@@ -26,7 +27,16 @@
 .title {
   text-decoration: none;
   color: #000;
-  font-size: clamp(14px, 2vw, 20px);
+  font-size: clamp(18px, 2vw, 22px);
+  width: 230px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 5; /* number of lines to show */
+  line-clamp: 5;
+  -webkit-box-orient: vertical;
+  margin: 5px 10px;
+  text-align: center;
 }
 
 .timeEdit {
@@ -47,12 +57,43 @@
   box-shadow: 0px 0px 8px 4px rgba(116, 116, 116, 0.5);
 }
 
-.btn-group{
-    position: absolute;
-    bottom: -35px;
-    left: 0%;
-    width: 100%;
+.btn-group {
+  position: absolute;
+  bottom: -35px;
+  left: 0%;
+  width: 100%;
+  display: flex;
+  flex-wrap: nowrap;
+  justify-content: space-between;
+}
+
+@media screen and (max-width: 900px) {
+  .lists-grid {
+    grid-template-columns: 1fr 1fr;
+    column-gap: 10px;
+  }
+}
+
+@media screen and (max-width: 580px) {
+  .lists-grid {
+    grid-template-columns: 1fr;
+    column-gap: 0px;
+    row-gap: 50px;
+  }
+
+  .content {
+    height: 160px;
+    width: clamp(50px, 100%, 250px);
+    position: relative;
     display: flex;
-    flex-wrap: nowrap;
-    justify-content: space-between;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0px 0px 8px 4px rgba(116, 116, 116, 0.5);
+  }
+
+  .title {
+    -webkit-line-clamp: 4; /* number of lines to show */
+    line-clamp: 4;
+  }
 }

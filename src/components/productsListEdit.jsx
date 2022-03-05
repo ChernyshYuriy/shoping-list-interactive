@@ -25,7 +25,6 @@ import { Link } from "react-router-dom";
 import Styles_End_Shopping from "../css/popupEndShopping.module.css";
 import Styles_Product_Edit from "../css/popupAddProduct.module.css";
 
-
 class ProductListEdit extends Component {
   // constructor(props) {
   //   super(props);
@@ -352,13 +351,31 @@ class ProductListEdit extends Component {
             : this.onAddProduct(e)
         }
       >
-        <input className={`${Styles_Product_Edit.input} input`} id="product_name" type="text" placeholder="Name product" />
-        <input className={`${Styles_Product_Edit.input} input`} id="product_desc" type="text" placeholder="Description" />
+        <input
+          className={`${Styles_Product_Edit.input} input`}
+          id="product_name"
+          type="text"
+          placeholder="Name product"
+        />
+        <input
+          className={`${Styles_Product_Edit.input} input`}
+          id="product_desc"
+          type="text"
+          placeholder="Description"
+        />
         {this.state.popupValidation}
         {this.state.editingProductId ? (
-          <button className={`${Styles_Product_Edit['action-btn']} btn btn-edit`}>Edit</button>
+          <button
+            className={`${Styles_Product_Edit["action-btn"]} btn btn-edit`}
+          >
+            Edit
+          </button>
         ) : (
-          <button className={`${Styles_Product_Edit['action-btn']} btn btn-save`}>Add product</button>
+          <button
+            className={`${Styles_Product_Edit["action-btn"]} btn btn-save`}
+          >
+            Add product
+          </button>
         )}
       </form>
     );
@@ -373,10 +390,14 @@ class ProductListEdit extends Component {
               100
             ).toFixed(2)}%`}
           </span>
-          <Link className={Styles_End_Shopping.link} to="/">{t("Main page")}</Link>
+          <Link className={Styles_End_Shopping.link} to="/">
+            {t("Main page")}
+          </Link>
         </div>
         <div>
-          {dontSelectedProducts.length ? `${t("Not taken products list")}:` : null}
+          {dontSelectedProducts.length
+            ? `${t("Not taken products list")}:`
+            : null}
         </div>
         <div className={Styles_End_Shopping["product-list"]}>
           {dontSelectedProducts.slice(0, 10).map((product) => {
@@ -483,23 +504,27 @@ class ProductListEdit extends Component {
                   .map((product) => {
                     return (
                       <div className={Styles["product"]} key={product.id}>
-                        {this.props.config.showCheckbox ? (
-                          <div
-                            className={Styles["checkbox-container"]}
-                            onClick={() => this.changeStatusProduct(product.id)}
-                          >
-                            <Checkbox status={product.status} />
-                          </div>
-                        ) : null}
-                        <div>
-                          <div className={Styles["product-title"]}>
-                            {product.title}
-                          </div>
-                          {product.desc ? (
-                            <div className={Styles["product-description"]}>
-                              desc: {product.desc}
+                        <div className="row">
+                          {this.props.config.showCheckbox ? (
+                            <div
+                              className={Styles["checkbox-container"]}
+                              onClick={() =>
+                                this.changeStatusProduct(product.id)
+                              }
+                            >
+                              <Checkbox status={product.status} />
                             </div>
                           ) : null}
+                          <div>
+                            <div className={Styles["product-title"]}>
+                              {product.title}
+                            </div>
+                            {product.desc ? (
+                              <div className={Styles["product-description"]}>
+                                desc: {product.desc}
+                              </div>
+                            ) : null}
+                          </div>
                         </div>
                         {this.props.config.showProductActions ? (
                           <div className={Styles["product-btn-group"]}>
@@ -540,7 +565,7 @@ class ProductListEdit extends Component {
                       className={Styles["checkbox-container"]}
                       onClick={() => this.changeStatusProduct(product.id)}
                     >
-                      <Checkbox status={product.status} />
+                      <Checkbox status={product.status} alternativeColor={true} />
                     </div>
                   ) : null}
                   <span>

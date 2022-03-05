@@ -222,7 +222,9 @@ class LoginUser extends Component {
                 {t(this.props.validationError)}
               </div>
             </div>
-            <button className="btn">
+            <button className={`btn ${this.state.popupFunctionalityStatus === "login"
+                ? 'btn-edit'
+                : 'btn-save'}`}>
               {this.state.popupFunctionalityStatus === "login"
                 ? t("login")
                 : t("create_account")}
