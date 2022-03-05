@@ -213,14 +213,18 @@ class LoginUser extends Component {
                 id="pinCode"
                 placeholder={t("enter_pinCode")}
               />
-              <div className="form-warning">
+              {/* <div className="form-warning">
                 {this.state.isLastActionSuccess.status
                   ? null
                   : t(this.state.isLastActionSuccess.massage)}
+              </div> */}
+              <div className="form-warning">
+                {t(this.props.validationError)}
               </div>
             </div>
-            {this.props.validationError}
-            <button className="btn">
+            <button className={`btn ${this.state.popupFunctionalityStatus === "login"
+                ? 'btn-edit'
+                : 'btn-save'}`}>
               {this.state.popupFunctionalityStatus === "login"
                 ? t("login")
                 : t("create_account")}

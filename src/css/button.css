@@ -1,0 +1,55 @@
+.btn {
+  width: clamp(40px, 100%, 200px);
+  height: 25px;
+  font-size: 16px;
+  border-radius: 5px;
+  border: none;
+  font-family: "Roboto", sans-serif;
+  cursor: pointer;
+  transition: 0.15s all;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.btn-edit {
+  box-shadow: 0px 0px 3px rgb(5, 22, 255);
+  background-color: rgb(77, 88, 255);
+  text-shadow: 0px 0px 1px rgb(131, 139, 251);
+  color: #fff;
+}
+
+.btn-save {
+  box-shadow: 0px 0px 3px rgb(26, 110, 62);
+  background-color: rgba(0, 131, 57);
+  text-shadow: 0px 0px 1px rgba(0, 131, 57, 0.726);
+  color: #fff;
+}
+
+.btn-delete {
+  box-shadow: 0px 0px 3px #c00e01;
+  background-color: #b93930;
+  text-shadow: 0px 0px 1px #bd6a64;
+  color: #fff;
+  margin-left: 10px;
+}
+
+.btn-edit.btn-edit--shopping-list {
+  box-shadow: none;
+}
+
+.btn-delete.btn-delete--shopping-list {
+  box-shadow: none;
+}
+
+.btn-edit:hover {
+  box-shadow: 0px 0px 6px rgb(5, 22, 255);
+  transform: scale(104%);
+}
+.btn-delete:hover {
+  box-shadow: 0px 0px 6px #c00e01;
+  transform: scale(104%);
+}
+
+.btn-save:hover {
+  box-shadow: 0px 0px 6px rgba(0, 131, 57);
+}

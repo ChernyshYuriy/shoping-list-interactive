@@ -1,0 +1,26 @@
+.header{
+    display: flex;
+    justify-content: space-between;
+    padding-right: 10px;
+    margin-top: 10px;
+    font-size: 20px;
+    margin-bottom: 20px;
+}
+.product-list{
+    margin-top: 5px;
+    margin-bottom: 7px;
+}
+
+.link{
+    color: blue;
+    text-decoration: none;
+    width: max-content;
+}
+
+@media screen and (max-width: 1000px) {
+    .header {
+        flex-direction: column-reverse;
+        margin-bottom: 10px;
+        font-size: 18px;
+    }
+  }

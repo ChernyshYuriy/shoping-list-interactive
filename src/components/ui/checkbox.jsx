@@ -6,7 +6,9 @@ function Checkbox(props) {
     <div className={Styles.checkbox}>
       {props.status === true ? (
         <svg
-          className={Styles["checkbox-icon"]}
+          className={`${Styles["checkbox-icon"]} ${
+            props.alternativeColor ? Styles["checkbox-icon--white"] : ""
+          }`}
           xmlns="http://www.w3.org/2000/svg"
           width="18"
           height="18"

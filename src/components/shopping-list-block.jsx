@@ -43,6 +43,7 @@ import {
   updateShoppingListInUserData,
   deleteProductList,
 } from "./../store/userInfo";
+import '../css/button.css'
 import Styles from "../css/shopping-lists.module.css";
 
 class ShoppingListBlock extends Component {
@@ -67,7 +68,7 @@ class ShoppingListBlock extends Component {
           {this.formattingDate(lastEdit)}
           <div className={Styles["btn-group"]}>
             <button
-            className={`${Styles.btn} ${Styles['btn-edit']}`}
+            className="btn btn-edit"
               onClick={(e) =>
                 onOpenShoppingList(e, id, `/edit-shopping-list?${id}`)
               }
@@ -75,7 +76,7 @@ class ShoppingListBlock extends Component {
               Edit
             </button>
             <button
-            className={`${Styles.btn} ${Styles['btn-delete']}`} onClick={(e) => onDeleteShoppingList(e, id)}>Delete</button>
+            className="btn btn-delete" onClick={(e) => onDeleteShoppingList(e, id)}>Delete</button>
           </div>
         </div>
       </div>

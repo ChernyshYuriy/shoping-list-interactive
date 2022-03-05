@@ -1,1 +1,16 @@
+.input {
+  border: 1px solid rgba(122, 122, 122, 0.6);
+  border-radius: 4px;
+  height: 20px;
+  width: clamp(100px, 100% - 70px, 180px);
+  background-color: #fff;
+}
 
+.row {
+  display: flex;
+}
+
+.column {
+  display: flex;
+  flex-direction: column;
+}

@@ -16,14 +16,14 @@ import {
   createNewProductList,
   updateShoppingListInUserData,
 } from "../store/userInfo";
+import "../css/button.css";
 import SearchByLater from "./ui/searchByLater";
 import Checkbox from "./ui/checkbox";
 import BottomActionBtn from "./shoppingList/bottomActionBtn";
-import {
-  editShoppingList,
-  getShoppingList,
-} from "./../store/shoppingList";
+import { editShoppingList, getShoppingList } from "./../store/shoppingList";
 import { Link } from "react-router-dom";
+import Styles_End_Shopping from "../css/popupEndShopping.module.css";
+import Styles_Product_Edit from "../css/popupAddProduct.module.css";
 
 class ProductListEdit extends Component {
   // constructor(props) {
@@ -288,9 +288,17 @@ class ProductListEdit extends Component {
 
   titleContent = () => {
     const titleInput = (
-      <input id="title" type="text" placeholder={t("name_shopping_list")} />
+      <div className="column">
+        <label htmlFor="title">List name</label>
+        <input
+          className="input"
+          id="title"
+          type="text"
+          placeholder={t("name_shopping_list")}
+        />
+      </div>
     );
-    const titleNoEditing = <div>{this.props.shoppingListTitle}</div>;
+    const titleNoEditing = <div>{`Name: ${this.props.shoppingListTitle}`}</div>;
 
     if (this.props.config.showTitle) {
       if (this.props.config.editTitle) {
@@ -317,11 +325,14 @@ class ProductListEdit extends Component {
         status: true,
         message: "creatingShoppingList",
       });
-      await this.props.editShoppingList({
-        title,
-        lastEdit,
-        listProducts: filteredProducts,
-      }, this.props.userShoppingListId);
+      await this.props.editShoppingList(
+        {
+          title,
+          lastEdit,
+          listProducts: filteredProducts,
+        },
+        this.props.userShoppingListId
+      );
     } finally {
       this.props.changeLoading({ status: false, message: "Data_processing" });
     }
@@ -340,33 +351,64 @@ class ProductListEdit extends Component {
             : this.onAddProduct(e)
         }
       >
-        <input id="product_name" type="text" placeholder="Name product" />
-        <input id="product_desc" type="text" placeholder="Description" />
+        <input
+          className={`${Styles_Product_Edit.input} input`}
+          id="product_name"
+          type="text"
+          placeholder="Name product"
+        />
+        <input
+          className={`${Styles_Product_Edit.input} input`}
+          id="product_desc"
+          type="text"
+          placeholder="Description"
+        />
         {this.state.popupValidation}
         {this.state.editingProductId ? (
-          <button className="">Edit</button>
+          <button
+            className={`${Styles_Product_Edit["action-btn"]} btn btn-edit`}
+          >
+            Edit
+          </button>
         ) : (
-          <button className="">Add product</button>
+          <button
+            className={`${Styles_Product_Edit["action-btn"]} btn btn-save`}
+          >
+            Add product
+          </button>
         )}
       </form>
     );
 
     const endShopping = (
       <React.Fragment>
-        <div>
+        <div className={Styles_End_Shopping.header}>
           <span>
-            {t("Not taken products")}
-            {`${(
+            {t("Products taken from list")}
+            {`: ${(
               (selectedProducts.length / this.state.productList.length) *
               100
             ).toFixed(2)}%`}
           </span>
-          <Link to="/">{t("main page")}</Link>
+          <Link className={Styles_End_Shopping.link} to="/">
+            {t("Main page")}
+          </Link>
         </div>
-
-        {dontSelectedProducts.map((product) => {
-          return <div key={product.id}>{product.title}</div>;
-        })}
+        <div>
+          {dontSelectedProducts.length
+            ? `${t("Not taken products list")}:`
+            : null}
+        </div>
+        <div className={Styles_End_Shopping["product-list"]}>
+          {dontSelectedProducts.slice(0, 10).map((product) => {
+            return <div key={product.id}>{product.title}</div>;
+          })}
+        </div>
+        <div>
+          {dontSelectedProducts.length > 10
+            ? `${t("And else")} ${dontSelectedProducts.length - 10} products`
+            : null}
+        </div>
       </React.Fragment>
     );
 
@@ -462,29 +504,44 @@ class ProductListEdit extends Component {
                   .map((product) => {
                     return (
                       <div className={Styles["product"]} key={product.id}>
-                        {this.props.config.showCheckbox ? (
-                          <div
-                            className={Styles["checkbox-container"]}
-                            onClick={() => this.changeStatusProduct(product.id)}
-                          >
-                            <Checkbox status={product.status} />
+                        <div className="row">
+                          {this.props.config.showCheckbox ? (
+                            <div
+                              className={Styles["checkbox-container"]}
+                              onClick={() =>
+                                this.changeStatusProduct(product.id)
+                              }
+                            >
+                              <Checkbox status={product.status} />
+                            </div>
+                          ) : null}
+                          <div>
+                            <div className={Styles["product-title"]}>
+                              {product.title}
+                            </div>
+                            {product.desc ? (
+                              <div className={Styles["product-description"]}>
+                                desc: {product.desc}
+                              </div>
+                            ) : null}
                           </div>
-                        ) : null}
-
-                        <div className={Styles["product-title"]}>
-                          {product.title}
                         </div>
-                        {product.desc ? (
-                          <div className={Styles["product-description"]}>
-                            desc: {product.desc}
+                        {this.props.config.showProductActions ? (
+                          <div className={Styles["product-btn-group"]}>
+                            <button
+                              className="btn btn-edit btn-edit--shopping-list"
+                              onClick={() => this.setEditingProduct(product)}
+                            >
+                              Edit
+                            </button>
+                            <button
+                              className="btn btn-delete btn-delete--shopping-list"
+                              onClick={() => this.deleteProduct(product.id)}
+                            >
+                              Delete
+                            </button>
                           </div>
                         ) : null}
-                        <button onClick={() => this.setEditingProduct(product)}>
-                          Edit
-                        </button>
-                        <button onClick={() => this.deleteProduct(product.id)}>
-                          Delete
-                        </button>
                       </div>
                     );
                   })}
@@ -492,27 +549,41 @@ class ProductListEdit extends Component {
             </div>
           );
         })}
-        {productListNotSelected.map((product) => {
-          return (
-            <div className={Styles["product"]} key={product.id}>
-              {this.props.config.showCheckbox ? (
-                <div
-                  className={Styles["checkbox-container"]}
-                  onClick={() => this.changeStatusProduct(product.id)}
-                >
-                  <Checkbox status={product.status} />
-                </div>
-              ) : null}
-
-              <div className={Styles["product-title"]}>{product.title}</div>
-              {product.desc ? (
-                <div className={Styles["product-description"]}>
-                  desc: {product.desc}
-                </div>
-              ) : null}
+        {productListNotSelected.length > 0 ? (
+          <div className={Styles["group-selected-products"]}>
+            <div className={Styles["group-selected-products__title"]}>
+              {t("Selected products")}
             </div>
-          );
-        })}
+            {productListNotSelected.map((product) => {
+              return (
+                <div
+                  className={`${Styles.product} ${Styles["product--selected"]}`}
+                  key={product.id}
+                >
+                  {this.props.config.showCheckbox ? (
+                    <div
+                      className={Styles["checkbox-container"]}
+                      onClick={() => this.changeStatusProduct(product.id)}
+                    >
+                      <Checkbox status={product.status} alternativeColor={true} />
+                    </div>
+                  ) : null}
+                  <span>
+                    <div className={Styles["product-title"]}>
+                      {product.title}
+                    </div>
+                    {product.desc ? (
+                      <div className={Styles["product-description"]}>
+                        desc: {product.desc}
+                      </div>
+                    ) : null}
+                  </span>
+                </div>
+              );
+            })}
+          </div>
+        ) : null}
+
         <BottomActionBtn
           config={this.props.config.activeButtons}
           saveChange={this.saveChange}
@@ -554,6 +625,7 @@ ProductListEdit.defaultProps = {
     useActiveShoppingList: false,
     dividedByStatus: false,
     showCheckbox: false,
+    showProductActions: false,
     activeButtons: {
       addProduct: false,
       saveChanges: false,

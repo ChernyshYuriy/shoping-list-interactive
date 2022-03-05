@@ -12,12 +12,12 @@ class MainPage extends Component {
   }
   render() {
     return (
-      <div className="main-page">
+      <span className="main-page">
         <LoginUser />
         {/* {this.props.userNickName ? this.props.userNickName : null}{" "} */}
         <ShoppingListContainer />
         {/* <ShoppingListDisplay userShoppingList={this.props.userShoppingList} /> */}
-      </div>
+      </span>
     );
   }
 }

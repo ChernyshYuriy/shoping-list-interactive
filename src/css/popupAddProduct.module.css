@@ -1,0 +1,8 @@
+.action-btn{
+    margin-top: 16px;
+    max-width: 120px;
+}
+
+.action-btn:hover{
+    transform: scale(100%);
+}

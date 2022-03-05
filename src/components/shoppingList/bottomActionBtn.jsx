@@ -10,7 +10,7 @@ class BottomActionBtn extends Component {
   buttonRender = () => {
     const addProduct = this.props.config.addProduct ? (
       <button
-        className={`${Styles["btn"]} ${Styles["btn-create"]}`}
+        className={`${Styles["btn"]} ${Styles["btn-create"]} ${Styles["btn-create--offset-bottom"]}`}
         onClick={this.props.openAddProductPopup}
       >
         {t("Add product")}
@@ -20,7 +20,7 @@ class BottomActionBtn extends Component {
     const saveChange = this.props.config.saveChanges ? (
       <button
         onClick={this.props.saveChange}
-        className={`${Styles["btn"]} ${Styles["btn-save"]}`}
+        className={`${Styles["btn"]} ${Styles["btn-save"]} ${Styles["btn-save--offset-bottom"]}`}
       >
         {t("Save changes")}
       </button>
@@ -28,7 +28,7 @@ class BottomActionBtn extends Component {
     const createList = this.props.config.createList ? (
       <button
         onClick={this.props.onCreateShoppingList}
-        className={`${Styles["btn"]} ${Styles["btn-save"]}`}
+        className={`${Styles["btn"]} ${Styles["btn-save"]} ${Styles["btn-save--offset-bottom"]}`}
       >
         {t("Create shopping list")}
       </button>
@@ -36,7 +36,7 @@ class BottomActionBtn extends Component {
 
     const endShopping = this.props.config.endShopping ? (
       <button
-        className={`${Styles["btn"]} ${Styles["btn-save"]}`}
+        className={`${Styles["btn"]} ${Styles["btn-save"]} ${Styles["btn-save--offset-bottom"]}`}
         onClick={() => this.props.changePopup({ visibility: true })}
       >
         {t("End shopping")}
@@ -45,7 +45,7 @@ class BottomActionBtn extends Component {
 
     const editShopping = this.props.config.editShopping ? (
       <button
-        className={`${Styles["btn"]} ${Styles["btn-save"]}`}
+        className={`${Styles["btn"]} ${Styles["btn-save"]} ${Styles["btn-save--offset-bottom"]}`}
         onClick={this.props.onEditShoppingList}
       >
         {t("Save changes for shopping list")}

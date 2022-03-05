@@ -1,4 +1,4 @@
-.popup-container{
+.popup-container {
   background-color: rgba(0, 0, 0, 0.5);
   width: 100vw;
   height: 100vh;
@@ -7,31 +7,57 @@
   left: 0;
   display: grid;
   place-items: center;
+  z-index: 5;
 }
 
-.popup{
+.popup {
   display: block;
-  width: max-content;
   height: max-content;
-  min-width: 500px;
+  /* width: min(300px, 100%); */
+  width: clamp(310px, 40vw, 800px);
   min-height: min-content;
-  background-color: rgb(216, 216, 216);
+  background-color: rgb(230, 230, 230);
   position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
   border-radius: 10px;
-  max-width: calc(85vw - 20px);
+  /* max-width: calc(85vw - 20px); */
   max-height: calc(85vh - 20px);
   padding: 20px;
   word-wrap: break-word;
+  overflow-y: auto;
+  scroll-behavior: auto;
 }
-.header{
+
+.popup__content{
+  position: relative;
+}
+
+
+.popup::-webkit-scrollbar {
+  width: 12px;               /* width of the entire scrollbar */
+}
+
+.popup::-webkit-scrollbar-track {
+  background: transparent;        /* color of the tracking area */
+}
+
+.popup::-webkit-scrollbar-thumb {
+  background-color: rgba(0, 131, 57, 0.8);    /* color of the scroll thumb */
+  border-radius: 20px;       /* roundness of the scroll thumb */
+  border: 3px solid rgb(216, 216, 216);  /* creates padding around scroll thumb */
+}
+
+.header {
   color: rgb(0, 0, 0);
   font-size: 20px;
   text-align: center;
-  text-shadow: 0px 0px 3px #FFF;
+  text-shadow: 0px 0px 3px #fff;
   padding-bottom: 6px;
   border-bottom: 1px solid rgba(0, 0, 0, 0.25);
 }
-.close-icon{
+.close-icon {
   position: absolute;
   top: 6px;
   right: 6px;
@@ -40,6 +66,13 @@
   cursor: pointer;
   transition: all 0.3s;
 }
-.close-icon:hover{
+.close-icon:hover {
   fill: #c00c00;
+}
+
+@media screen and (max-width: 420px) {
+  .popup {
+    width: clamp(280px, 40vw, 800px);
+    padding: 10px;
+  }
 }
