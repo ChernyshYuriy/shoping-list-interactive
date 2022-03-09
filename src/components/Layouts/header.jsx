@@ -109,101 +109,110 @@ class AppHeader extends Component {
             </div>
           </div>
         </div>
-        {this.state.showMobileMenu ? (
-          <div
-            className={Styles["mobile-menu-background"]}
-            onClick={() => this.changeMobileMenuVisibility(false)}
-          >
-            <div
-              className={Styles["mobile-menu"]}
-              onClick={(e) => e.stopPropagation()}
-            >
-              <div>
-                <Link
-                  className="link logo logo-mobile"
-                  to={"/"}
-                  onClick={() => this.changeMobileMenuVisibility(false)}
-                >
-                  Manage easily
-                </Link>
-                <span
-                  className={Styles["mobile-menu__icon"]}
-                  onClick={() => this.changeMobileMenuVisibility(false)}
-                >
-                  <svg
-                    width="35"
-                    height="35"
-                    viewBox="0 0 35 35"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <rect
-                      x="10.8379"
-                      y="10.1113"
-                      width="22.8565"
-                      height="2.28565"
-                      rx="1.14282"
-                      transform="rotate(45 10.8379 10.1113)"
-                      fill="white"
-                    ></rect>
-                    <rect
-                      x="9.3501"
-                      y="26.4272"
-                      width="22.8565"
-                      height="2.28565"
-                      rx="1.14282"
-                      transform="rotate(-46 9.3501 26.4272)"
-                      fill="white"
-                    ></rect>
-                  </svg>
-                </span>
-              </div>
 
-              <div className={`${Styles["user-account-mobile"]} clickable`}>
-                <div>{this.props.userNickName}</div>
-                <div>{t("account_settings")}</div>
-              </div>
+        <div
+          className={`${Styles["mobile-menu-background"]} ${
+            this.state.showMobileMenu
+              ? Styles["mobile-menu-background--open"]
+              : Styles["mobile-menu-background--close"]
+          }`}
+          onClick={() => this.changeMobileMenuVisibility(false)}
+        >
+          <div
+            className={`${Styles["mobile-menu"]} ${
+              this.state.showMobileMenu
+                ? Styles["mobile-menu--open"]
+                : Styles["mobile-menu--close"]
+            }`}
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div>
               <Link
-                to={"/edit-products"}
-                className={`${Styles["mobile-menu__element"]} ${Styles.link} clickable`}
+                className="link logo logo-mobile"
+                to={"/"}
                 onClick={() => this.changeMobileMenuVisibility(false)}
               >
-                {t("edit_product_list")}
+                Manage easily
               </Link>
-              <div
-                className={`${Styles["mobile-menu__element"]} ${
-                  Styles["language-mobile"]
-                } ${
-                  this.state.languageSelectorShow
-                    ? Styles["language-mobile--open"]
-                    : Styles["language-mobile--close"]
-                } clickable`}
-                onClick={this.changeLanguageStatus}
+              <span
+                className={Styles["mobile-menu__icon"]}
+                onClick={() => this.changeMobileMenuVisibility(false)}
               >
-                {t("select_language")}
-                {this.state.languages.map((lang) => {
-                  return (
-                    <div onClick={() => this.props.changeLanguage(lang.id)}>{lang.title}</div>
-                  );
-                })}
-                {/* <DropDown
+                <svg
+                  width="35"
+                  height="35"
+                  viewBox="0 0 35 35"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <rect
+                    x="10.8379"
+                    y="10.1113"
+                    width="22.8565"
+                    height="2.28565"
+                    rx="1.14282"
+                    transform="rotate(45 10.8379 10.1113)"
+                    fill="white"
+                  ></rect>
+                  <rect
+                    x="9.3501"
+                    y="26.4272"
+                    width="22.8565"
+                    height="2.28565"
+                    rx="1.14282"
+                    transform="rotate(-46 9.3501 26.4272)"
+                    fill="white"
+                  ></rect>
+                </svg>
+              </span>
+            </div>
+
+            <div className={`${Styles["user-account-mobile"]} clickable`}>
+              <div>{this.props.userNickName}</div>
+              <div>{t("account_settings")}</div>
+            </div>
+            <Link
+              to={"/edit-products"}
+              className={`${Styles["mobile-menu__element"]} ${Styles.link} clickable`}
+              onClick={() => this.changeMobileMenuVisibility(false)}
+            >
+              {t("edit_product_list")}
+            </Link>
+            <div
+              className={`${Styles["mobile-menu__element"]} ${
+                Styles["language-mobile"]
+              } ${
+                this.state.languageSelectorShow
+                  ? Styles["language-mobile--open"]
+                  : Styles["language-mobile--close"]
+              } clickable`}
+              onClick={this.changeLanguageStatus}
+            >
+              {t("select_language")}
+              {this.state.languages.map((lang) => {
+                return (
+                  <div key={lang.id} onClick={() => this.props.changeLanguage(lang.id)}>
+                    {lang.title}
+                  </div>
+                );
+              })}
+              {/* <DropDown
                   status={this.state.languageSelectorShow}
                   list={this.state.languages}
                   titleKey="title"
                   idKey="id"
                   clickEvent={this.props.changeLanguage}
                 /> */}
-              </div>
-              <Link
-                to={"/"}
-                onClick={this.logoutAccount}
-                className={`${Styles["mobile-menu__element"]} ${Styles["logout-mobile"]} clickable`}
-              >
-                {t("logout")}
-              </Link>
             </div>
+            <Link
+              to={"/"}
+              onClick={this.logoutAccount}
+              className={`${Styles["mobile-menu__element"]} ${Styles["logout-mobile"]} clickable`}
+            >
+              {t("logout")}
+            </Link>
           </div>
-        ) : null}
+        </div>
       </React.Fragment>
     );
   }
