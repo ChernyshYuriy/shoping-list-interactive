@@ -89,22 +89,48 @@ a.block {
 
 .language {
   color: rgb(255, 255, 255);
+  position: relative;
 }
 
 .language-mobile {
   font-size: 18px;
   color: #000;
+  position: relative;
+  width: max-content;
+  transition: all .3s;
+  overflow: hidden;
 }
+
+.language-mobile--open{
+  height: 85px;
+}
+
+.language-mobile div{
+  padding-left: 10px;
+}
+
+.language-mobile div:active{
+  color: #000dc8;
+}
+
+.language-mobile--close{
+  height: 32px;
+}
+
+
 
 .language:hover {
   color: rgb(55, 58, 255);
   font-size: 20px;
 }
 
-.language:hover {
-  color: #fff;
-  font-size: 18px;
+/* .language-mobile:hover {
+  color: #000dc8;
 }
+
+.language-mobile:active {
+  color: #000dc8;
+} */
 
 .block:first-child {
   border-left: 1px solid rgba(255, 255, 255, 0.5);

@@ -15,6 +15,7 @@ class ShoppingList extends Component {
           list={this.props.activeShoppingList}
         /> */}
         <ProductsListEdit
+          lang={this.props.language}
           config={{
             showTitle: true,
             editTitle: false,
@@ -22,7 +23,7 @@ class ShoppingList extends Component {
             showCheckbox: true,
             dividedByStatus: true,
             activeButtons: {
-              endShopping: true
+              endShopping: true,
             },
           }}
           list={this.props.activeShoppingList}
@@ -35,6 +36,7 @@ class ShoppingList extends Component {
 function mapStateToProps(state) {
   return {
     activeShoppingList: state.appData.shoppingList.activeShoppingList,
+    language: state.appConfig.language,
   };
 }
 

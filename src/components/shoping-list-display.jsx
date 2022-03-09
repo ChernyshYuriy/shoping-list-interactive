@@ -133,7 +133,10 @@ class ShoppingListDisplay extends Component {
       <React.Fragment>
         <div className={Styles["lists-grid"]}>
           <div className={Styles.list}>
-            <Link to={"/create-product-list"} className={`${Styles.content} ${Styles.title}`}>
+            <Link
+              to={"/create-product-list"}
+              className={`${Styles.content} ${Styles["content--offset-bottom"]} ${Styles.title}`}
+            >
               {t("Create new list")}
             </Link>
           </div>
@@ -156,6 +159,7 @@ class ShoppingListDisplay extends Component {
                 return (
                   <div key={list.id}>
                     <ShoppingListBlock
+                      lang={this.props.language}
                       key={list.id}
                       onDeleteShoppingList={this.deleteShoppingList}
                       onOpenShoppingList={this.handlerOpenShoppingList}
@@ -187,6 +191,7 @@ function mapStateToProps(state) {
     shoppingList: state.appData.shoppingList.activeShoppingList,
     userId: state.appData.users.objectId,
     userShoppingList: state.appData.users.userShoppingLists,
+    language: state.appConfig.language,
   };
 }
 export default connect(mapStateToProps, {

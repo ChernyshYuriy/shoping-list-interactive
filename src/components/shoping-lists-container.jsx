@@ -3,6 +3,6 @@ import { React } from 'react';
 import ShoppingListDisplay from "./shoping-list-display";
 function ShoppingListContainer() {
     const nav = useNavigate()
-    return <ShoppingListDisplay nav={nav} />
+    return <ShoppingListDisplay nav={nav}/>
 }
 export default ShoppingListContainer

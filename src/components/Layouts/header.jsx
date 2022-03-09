@@ -1,5 +1,4 @@
 // import React, { Component } from "react";
-import { t } from "i18next";
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
@@ -7,17 +6,43 @@ import Styles from "../../css/header.module.css";
 import "../../css/mainLayout.css";
 import { changeLoading, changePopup } from "../../store/appConfigData";
 import { logout } from "../../store/userInfo";
+// import i18n from "../../i18n";
+import { t } from "i18next";
+import DropDown from "./../ui/dropDownList";
+
 class AppHeader extends Component {
   state = {
     showMobileMenu: false,
+    languages: [
+      {
+        title: "English",
+        id: "en",
+      },
+      {
+        title: "Українська",
+        id: "ua",
+      },
+    ],
+    languageSelectorShow: false,
   };
+
+  // changeLanguage = (lang) => {
+  //   i18n.changeLanguage(lang);
+  //   console.log(lang, i18n.resolvedLanguage, i18n, "i18n");
+  //   this.forceUpdate();
+  //   localStorage.setItem('lang', lang);
+  // };
 
   changeMobileMenuVisibility = (status = !this.state.showMobileMenu) => {
     this.setState({ showMobileMenu: status });
   };
 
+  changeLanguageStatus = () => {
+    this.setState({ languageSelectorShow: !this.state.languageSelectorShow });
+  };
+
   logoutAccount = async () => {
-    this.props.changeLoading({ status: true, message: "Logout_user" });
+    this.props.changeLoading({ status: true, message: "Logout user" });
     await this.props.logout();
     await this.props.changePopup({ visibility: true });
     this.props.changeLoading({ status: false, message: "Data_processing" });
@@ -55,8 +80,18 @@ class AppHeader extends Component {
               >
                 {t("edit_product_list")}
               </Link>
-              <div className={`${Styles.block} ${Styles.language} clickable`}>
+              <div
+                className={`${Styles.block} ${Styles.language} clickable`}
+                onClick={this.changeLanguageStatus}
+              >
                 {t("select_language")}
+                <DropDown
+                  status={this.state.languageSelectorShow}
+                  list={this.state.languages}
+                  titleKey="title"
+                  idKey="id"
+                  clickEvent={this.props.changeLanguage}
+                />
               </div>
               <div
                 className={`${Styles.block} ${Styles["user-account"]} clickable`}
@@ -136,9 +171,28 @@ class AppHeader extends Component {
                 {t("edit_product_list")}
               </Link>
               <div
-                className={`${Styles["mobile-menu__element"]} ${Styles["language-mobile"]} clickable`}
+                className={`${Styles["mobile-menu__element"]} ${
+                  Styles["language-mobile"]
+                } ${
+                  this.state.languageSelectorShow
+                    ? Styles["language-mobile--open"]
+                    : Styles["language-mobile--close"]
+                } clickable`}
+                onClick={this.changeLanguageStatus}
               >
                 {t("select_language")}
+                {this.state.languages.map((lang) => {
+                  return (
+                    <div onClick={() => this.props.changeLanguage(lang.id)}>{lang.title}</div>
+                  );
+                })}
+                {/* <DropDown
+                  status={this.state.languageSelectorShow}
+                  list={this.state.languages}
+                  titleKey="title"
+                  idKey="id"
+                  clickEvent={this.props.changeLanguage}
+                /> */}
               </div>
               <Link
                 to={"/"}

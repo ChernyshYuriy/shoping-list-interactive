@@ -98,6 +98,6 @@ if (isDecoding === true) {
   }
 
 
-console.log(result, 'result');
+// console.log(result, 'result');
   return result
 };

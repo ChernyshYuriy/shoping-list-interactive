@@ -33,11 +33,11 @@ class SearchByLater extends Component {
     return (
       <div className={Styles.search}>
         <div>
-          <label className={Styles.label} htmlFor="searchLaterInput">Search by first latter</label>
+          <label className={Styles.label} htmlFor="searchLaterInput">{t("Search by first latter")}</label>
         </div>
         <form className={Styles["form"]} onSubmit={(e) => this.onSearch(e)}>
           <input className={Styles.input} id="searchLaterInput" type="text" />
-          <button className={Styles.btn}>Search</button>
+          <button className={Styles.btn}>{t("Search")}</button>
         </form>
         <span className={Styles.error}>{t(this.state.message)}</span>
       </div>

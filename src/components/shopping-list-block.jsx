@@ -45,6 +45,7 @@ import {
 } from "./../store/userInfo";
 import '../css/button.css'
 import Styles from "../css/shopping-lists.module.css";
+import { t } from "i18next";
 
 class ShoppingListBlock extends Component {
   // .then(this.props.history.push(`/product-list?listId=${id}`));
@@ -73,10 +74,10 @@ class ShoppingListBlock extends Component {
                 onOpenShoppingList(e, id, `/edit-shopping-list?${id}`)
               }
             >
-              Edit
+              {t("Edit")}
             </button>
             <button
-            className="btn btn-delete" onClick={(e) => onDeleteShoppingList(e, id)}>Delete</button>
+            className="btn btn-delete" onClick={(e) => onDeleteShoppingList(e, id)}>{t("Delete")}</button>
           </div>
         </div>
       </div>

@@ -96,4 +96,8 @@
     -webkit-line-clamp: 4; /* number of lines to show */
     line-clamp: 4;
   }
+
+  .content--offset-bottom{
+    margin-bottom: -32px;
+  }
 }

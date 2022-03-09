@@ -31,6 +31,9 @@ const appConfigData = createSlice({
         data.popup[key] = action.payload[key];
       }
     },
+    changeLanguage: (data, action) => {
+      data.language = action.payload
+    },
   },
 });
 
@@ -38,6 +41,7 @@ export const {
   changeLoadingStatus: changeLoading,
   changePopupParameters: changePopup,
   setValidationError: validationError,
+  changeLanguage
 } = appConfigData.actions;
 
 export default appConfigData;

@@ -289,7 +289,7 @@ class ProductListEdit extends Component {
   titleContent = () => {
     const titleInput = (
       <div className="column">
-        <label htmlFor="title">List name</label>
+        <label htmlFor="title">{t("List name")}</label>
         <input
           className="input"
           id="title"
@@ -298,7 +298,7 @@ class ProductListEdit extends Component {
         />
       </div>
     );
-    const titleNoEditing = <div>{`Name: ${this.props.shoppingListTitle}`}</div>;
+    const titleNoEditing = <div>{`${t('Name')}: ${this.props.shoppingListTitle}`}</div>;
 
     if (this.props.config.showTitle) {
       if (this.props.config.editTitle) {
@@ -363,18 +363,18 @@ class ProductListEdit extends Component {
           type="text"
           placeholder="Description"
         />
-        {this.state.popupValidation}
+        {t(this.state.popupValidation)}
         {this.state.editingProductId ? (
           <button
             className={`${Styles_Product_Edit["action-btn"]} btn btn-edit`}
           >
-            Edit
+            {t("Edit")}
           </button>
         ) : (
           <button
             className={`${Styles_Product_Edit["action-btn"]} btn btn-save`}
           >
-            Add product
+            {t("Add product")}
           </button>
         )}
       </form>
@@ -516,12 +516,12 @@ class ProductListEdit extends Component {
                             </div>
                           ) : null}
                           <div>
-                            <div className={Styles["product-title"]}>
+                            <div id={product.title} className={Styles["product-title"]}>
                               {product.title}
                             </div>
                             {product.desc ? (
                               <div className={Styles["product-description"]}>
-                                desc: {product.desc}
+                                {t("desc")}: {product.desc}
                               </div>
                             ) : null}
                           </div>
@@ -532,13 +532,13 @@ class ProductListEdit extends Component {
                               className="btn btn-edit btn-edit--shopping-list"
                               onClick={() => this.setEditingProduct(product)}
                             >
-                              Edit
+                              {t("Edit")}
                             </button>
                             <button
                               className="btn btn-delete btn-delete--shopping-list"
                               onClick={() => this.deleteProduct(product.id)}
                             >
-                              Delete
+                              {t("Delete")}
                             </button>
                           </div>
                         ) : null}
@@ -561,23 +561,28 @@ class ProductListEdit extends Component {
                   key={product.id}
                 >
                   {this.props.config.showCheckbox ? (
-                    <div
-                      className={Styles["checkbox-container"]}
-                      onClick={() => this.changeStatusProduct(product.id)}
-                    >
-                      <Checkbox status={product.status} alternativeColor={true} />
+                    <div className="row">
+                      <div
+                        className={Styles["checkbox-container"]}
+                        onClick={() => this.changeStatusProduct(product.id)}
+                      >
+                        <Checkbox
+                          status={product.status}
+                          alternativeColor={true}
+                        />
+                      </div>
+                      <span>
+                        <div className={Styles["product-title"]}>
+                          {product.title}
+                        </div>
+                        {product.desc ? (
+                          <div className={Styles["product-description"]}>
+                            {t("desc")}: {product.desc}
+                          </div>
+                        ) : null}
+                      </span>
                     </div>
                   ) : null}
-                  <span>
-                    <div className={Styles["product-title"]}>
-                      {product.title}
-                    </div>
-                    {product.desc ? (
-                      <div className={Styles["product-description"]}>
-                        desc: {product.desc}
-                      </div>
-                    ) : null}
-                  </span>
                 </div>
               );
             })}

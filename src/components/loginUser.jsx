@@ -38,7 +38,7 @@ class LoginUser extends Component {
     e.preventDefault();
 
     try {
-      const nickName = document.getElementById("nickName").value;
+      const nickName = document.getElementById("nickName").value.toLowerCase();
       const pinCode = document.getElementById("pinCode").value;
       const email = document.getElementById("email").value;
       if (this.state.popupFunctionalityStatus === "login") {
@@ -49,13 +49,13 @@ class LoginUser extends Component {
         await this.props.createAccount(nickName, pinCode, email);
       }
 
-      console.log(0);
-      console.log(
-        this.props.userNickName,
-        this.props.userId,
-        this.props.userNickName && this.props.userId,
-        "this.props.userNickName && this.props.userId this.props.userNickName && this.props.userId this.props.userNickName && this.props.userId"
-      );
+      // // // console.log(0);
+      // // // console.log(
+      // // //   this.props.userNickName,
+      // // //   this.props.userId,
+      // // //   this.props.userNickName && this.props.userId,
+      // // //   "this.props.userNickName && this.props.userId this.props.userNickName && this.props.userId this.props.userNickName && this.props.userId"
+      // // // );
 
       // try {
       //   new Promise((resolve, reject) => {
