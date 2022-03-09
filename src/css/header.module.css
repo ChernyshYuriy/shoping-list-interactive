@@ -135,12 +135,12 @@ a.block {
 }
 
 .mobile-menu-background {
+  position: fixed;
   z-index: 20;
   width: 100vw;
   height: 100vh;
   z-index: 5;
   background-color: rgba(0, 0, 0, 0.7);
-  position: absolute;
   top: 0;
   left: 0;
   /* animation-name: openMenuBackground;
@@ -149,12 +149,10 @@ a.block {
 }
 
 .mobile-menu-background--open {
-  opacity: 100%;
   width: 100vw;
 }
 
 .mobile-menu-background--close {
-  opacity: 0%;
   width: 0vw;
 }
 
@@ -178,10 +176,12 @@ a.block {
 
 .mobile-menu--open {
   width: 100vw;
+  padding-left: 15px;
 }
 
 .mobile-menu--close {
   width: 0vw;
+  padding-left: 0px;
 }
 
 /* @keyframes openMenu {
