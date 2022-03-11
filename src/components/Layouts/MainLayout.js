@@ -8,9 +8,13 @@ import { AddToHomeScreen } from 'react-pwa-add-to-homescreen';
 
 class MainLayout extends Component {
   componentDidMount(){
-    if (!!localStorage.getItem('lang')) {
-      localStorage.setItem("lang", "en");
+    console.log(localStorage.getItem('lang'), "lang");
+
+    if (!localStorage.getItem('lang')) {
+      this.changeLanguage("en")
     }
+
+    console.log(localStorage.getItem('lang'), "lang2");
   }
   changeLanguage = async (lang) => {
     i18n.changeLanguage(lang);
