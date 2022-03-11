@@ -15,7 +15,6 @@ import { changePopup } from "./store/appConfigData";
 import CreateProductList from "./pages/createShoppingList";
 import { useEffect } from "react";
 import EditShoppingList from './pages/editShoppingList';
-import { AddToHomeScreen } from "react-pwa-add-to-homescreen";
 // afterLogin loginUser changeLoading
 function App({ t }) {
   // const Parse = require("parse");
@@ -132,7 +131,6 @@ function App({ t }) {
             />
             {/* edit-shopping-list */}
           </Routes>
-          <AddToHomeScreen />
         </MainLayout>
       </Provider>
     </div>

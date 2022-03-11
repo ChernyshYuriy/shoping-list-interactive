@@ -4,8 +4,14 @@ import "../../css/mainLayout.css";
 import i18n from "../../i18n";
 import { changeLanguage } from "../../store/appConfigData";
 import { connect } from 'react-redux';
+import { AddToHomeScreen } from 'react-pwa-add-to-homescreen';
 
 class MainLayout extends Component {
+  componentDidMount(){
+    if (!!localStorage.getItem('lang')) {
+      localStorage.setItem("lang", "en");
+    }
+  }
   changeLanguage = async (lang) => {
     i18n.changeLanguage(lang);
     localStorage.setItem("lang", lang);
@@ -25,6 +31,7 @@ class MainLayout extends Component {
       <React.Fragment>
         <AppHeader lang={this.props.language} changeLanguage={this.changeLanguage}></AppHeader>
         <div className="container">{this.props.children}</div>
+        <AddToHomeScreen />
       </React.Fragment>
     );
   }
