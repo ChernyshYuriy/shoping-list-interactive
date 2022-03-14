@@ -6,9 +6,14 @@ class SearchByLater extends Component {
     message: "",
   };
 
+  constructor(props) {
+    super(props);
+    this.searchLaterInput = React.createRef();
+  }
+
   onSearch(e) {
     e.preventDefault();
-    const later = document.getElementById("searchLaterInput").value;
+    const later = this.searchLaterInput.current.value;
     const searchBlock = document.getElementById(`#${later.toLowerCase()}`);
     if (!!searchBlock) {
       document.getElementsByTagName("html")[0].scrollTop =
@@ -36,7 +41,7 @@ class SearchByLater extends Component {
           <label className={Styles.label} htmlFor="searchLaterInput">{t("Search by first latter")}</label>
         </div>
         <form className={Styles["form"]} onSubmit={(e) => this.onSearch(e)}>
-          <input className={Styles.input} id="searchLaterInput" type="text" />
+          <input className={Styles.input} id="searchLaterInput" ref={this.searchLaterInput} type="text" />
           <button className={Styles.btn}>{t("Search")}</button>
         </form>
         <span className={Styles.error}>{t(this.state.message)}</span>

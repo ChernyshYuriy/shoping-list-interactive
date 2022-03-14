@@ -36,6 +36,12 @@ class ProductListEdit extends Component {
   //     },
   //   };
   // }
+  constructor(props) {
+    super(props);
+    this.title = React.createRef();
+    this.product_name = React.createRef();
+    this.product_desc = React.createRef();
+  }
 
   state = {
     productList: [],
@@ -101,7 +107,8 @@ class ProductListEdit extends Component {
       }
     }
     if (this.props.config.combineActiveShoppingList) {
-      document.getElementById("title").value = this.props.shoppingListTitle;
+      this.title.current.value = this.props.shoppingListTitle;
+      // document.getElementById("title").value = this.props.shoppingListTitle;
     }
   }
 
@@ -139,13 +146,16 @@ class ProductListEdit extends Component {
   openAddProductPopup = () => {
     this.setState({ editingProductId: null });
     this.props.changePopup({ visibility: true });
+    console.log(this.product_name.current, 'this.product_name.current');
     // document.getElementById("add-product-form").reset()
   };
 
   saveEditProductResults = (e) => {
     e.preventDefault();
-    const title = document.getElementById("product_name").value;
-    const desc = document.getElementById("product_desc").value;
+    const title =  this.product_name.current.value 
+    //document.getElementById("product_name").value;
+    const desc = this.product_desc.current.value 
+    //document.getElementById("product_desc").value;
 
     this.setState({
       productList: this.state.productList.map((product) => {
@@ -170,8 +180,10 @@ class ProductListEdit extends Component {
   async onAddProduct(e) {
     e.preventDefault();
     const form = document.getElementById("add-product-form");
-    const name = document.getElementById("product_name").value;
-    const desc = document.getElementById("product_desc").value;
+    const name = this.product_name.current.value
+    // document.getElementById("product_name").value;
+    const desc = this.product_desc.current.value
+    // document.getElementById("product_desc").value;
     const newProduct = { title: name, desc };
     const isElementCreated = this.state.productList.filter(
       (product) =>
@@ -266,7 +278,7 @@ class ProductListEdit extends Component {
       .map((product) => ({ title: product.title, desc: product.desc }));
 
     console.log(filteredProducts);
-    const title = document.getElementById("title").value || "New shopping list";
+    const title = this.title.current.value || "New shopping list";
     const lastEdit = Date.now();
     try {
       if (filteredProducts.length) {
@@ -294,11 +306,14 @@ class ProductListEdit extends Component {
           className="input"
           id="title"
           type="text"
+          ref={this.title}
           placeholder={t("name_shopping_list")}
         />
       </div>
     );
-    const titleNoEditing = <div>{`${t('Name')}: ${this.props.shoppingListTitle}`}</div>;
+    const titleNoEditing = (
+      <div>{`${t("Name")}: ${this.props.shoppingListTitle}`}</div>
+    );
 
     if (this.props.config.showTitle) {
       if (this.props.config.editTitle) {
@@ -317,7 +332,7 @@ class ProductListEdit extends Component {
       .map((product) => ({ title: product.title, desc: product.desc }));
 
     // console.log(filteredProducts);
-    const title = document.getElementById("title").value || "New shopping list";
+    const title = this.title.current.value || "New shopping list";
     const lastEdit = Date.now();
 
     try {
@@ -356,12 +371,17 @@ class ProductListEdit extends Component {
           id="product_name"
           type="text"
           placeholder="Name product"
+          ref={this.product_name}
+          autoFocus 
+
         />
         <input
           className={`${Styles_Product_Edit.input} input`}
           id="product_desc"
           type="text"
           placeholder="Description"
+          ref={this.product_desc}
+
         />
         {t(this.state.popupValidation)}
         {this.state.editingProductId ? (
@@ -468,8 +488,8 @@ class ProductListEdit extends Component {
     console.log(this.state.editingProductId);
 
     await this.props.changePopup({ visibility: true });
-    document.getElementById("product_name").value = product.title || "";
-    document.getElementById("product_desc").value = product.desc || "";
+    this.product_name.current.value = product.title || "";
+    this.product_desc.current.value = product.desc || "";
 
     // console.log(this.state.editingProductId);
     // editingProductId
@@ -516,7 +536,10 @@ class ProductListEdit extends Component {
                             </div>
                           ) : null}
                           <div>
-                            <div id={product.title} className={Styles["product-title"]}>
+                            <div
+                              id={product.title}
+                              className={Styles["product-title"]}
+                            >
                               {product.title}
                             </div>
                             {product.desc ? (

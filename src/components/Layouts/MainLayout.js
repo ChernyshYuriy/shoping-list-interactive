@@ -35,7 +35,7 @@ class MainLayout extends Component {
       <React.Fragment>
         <AppHeader lang={this.props.language} changeLanguage={this.changeLanguage}></AppHeader>
         <div className="container">{this.props.children}</div>
-        <AddToHomeScreen />
+        <AddToHomeScreen skipFirstVisit={false}/>
       </React.Fragment>
     );
   }

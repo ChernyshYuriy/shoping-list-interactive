@@ -11,6 +11,7 @@ import {
 import "../css/form.css";
 import { t } from "i18next";
 import { changeLoading, changePopup } from "../store/appConfigData";
+
 // import { coder } from "./mixins/coder";
 
 class LoginUser extends Component {
@@ -20,6 +21,14 @@ class LoginUser extends Component {
     isLastActionSuccess: { status: true, massage: "" },
   };
 
+  constructor(props) {
+    super(props);
+    this.localStorageNickName = localStorage.getItem("nickName") || "";
+    this.nickName = React.createRef();
+    this.pinCode = React.createRef();
+    this.email = React.createRef();
+  }
+
   // constructor(props) {
   //   super(props);
   //   this.nickNameRef = React.createRef();
@@ -27,28 +36,39 @@ class LoginUser extends Component {
 
   componentDidMount() {
     // console.log(coder('1080', false), `coder('1080')`);
-    const localStorageNickName =
-      JSON.parse(localStorage.getItem("nickName")) || "";
-    this.setState({ nickName: localStorageNickName });
-    if (document.getElementById("nickName"))
-      document.getElementById("nickName").value = localStorageNickName;
+
+    this.setState({ nickName: this.localStorageNickName });
+    // if (this.localStorageNickName)
+    // // document.getElementById("nickName").value = localStorageNickName;
+    // // this.nickName.current.value = this.localStorageNickName;
+    // console.log(this.nickName, 'this.nickName.current.value', this.localStorageNickName);
   }
 
   async handleLoginAccount(e) {
     e.preventDefault();
 
     try {
-      const nickName = document.getElementById("nickName").value.toLowerCase();
-      const pinCode = document.getElementById("pinCode").value;
-      const email = document.getElementById("email").value;
+      // const nickName = document.getElementById("nickName").value.toLowerCase();
+      // const pinCode = document.getElementById("pinCode").value;
+      // const email = document.getElementById("email").value;
+      const nickName = this.nickName.current.value;
+      const pinCode = this.pinCode.current.value;
+      const email = this.email.current.value;
+      // console.log(this.nickName.current.value,
+      //   this.pinCode.current.value,
+      //   this.email.current.value, "Ref");
+      // console.log(nickName, pinCode, email);
       if (this.state.popupFunctionalityStatus === "login") {
         await this.props.changeLoading({ message: "getUserData" });
         await this.props.loginUser(nickName, pinCode);
+        localStorage.setItem("nickName", nickName);
+        this.setState({ nickName });
       } else if (this.state.popupFunctionalityStatus === "createAccount") {
         await this.props.changeLoading({ message: "creatingAccount" });
         await this.props.createAccount(nickName, pinCode, email);
+        localStorage.setItem("nickName", nickName);
+        this.setState({ nickName });
       }
-
       // // // console.log(0);
       // // // console.log(
       // // //   this.props.userNickName,
@@ -159,13 +179,23 @@ class LoginUser extends Component {
   //   // this.props.createAccount()
   // }
 
-  componentDidUpdate(prevProps) {
+  componentDidUpdate(prevProps, prevState) {
     if (
       prevProps !== this.props &&
       !!this.props.userNickName &&
       !!this.props.userId
     ) {
       this.props.changePopup({ visibility: false });
+    }
+    if (this.nickName.current !== null) {
+      if (this.localStorageNickName)
+        // document.getElementById("nickName").value = localStorageNickName;
+        this.nickName.current.value = this.state.nickName;
+      console.log(
+        this.nickName,
+        "this.nickName.current.value UPD",
+        this.state.nickName
+      );
     }
   }
 
@@ -186,6 +216,7 @@ class LoginUser extends Component {
                 className="input"
                 name=""
                 // ref={this.nickNameRef}
+                ref={this.nickName}
                 id="nickName"
                 placeholder={t("enter_nickName")}
               />
@@ -200,6 +231,7 @@ class LoginUser extends Component {
                 className="input"
                 name=""
                 // ref={this.nickNameRef}
+                ref={this.email}
                 id="email"
                 placeholder={t("enter_email")}
               />
@@ -210,6 +242,7 @@ class LoginUser extends Component {
                 name=""
                 maxLength="4"
                 // ref={this.nickNameRef}
+                ref={this.pinCode}
                 id="pinCode"
                 placeholder={t("enter_pinCode")}
               />
@@ -222,9 +255,13 @@ class LoginUser extends Component {
                 {t(this.props.validationError)}
               </div>
             </div>
-            <button className={`btn ${this.state.popupFunctionalityStatus === "login"
-                ? 'btn-edit'
-                : 'btn-save'}`}>
+            <button
+              className={`btn ${
+                this.state.popupFunctionalityStatus === "login"
+                  ? "btn-edit"
+                  : "btn-save"
+              }`}
+            >
               {this.state.popupFunctionalityStatus === "login"
                 ? t("login")
                 : t("create_account")}
