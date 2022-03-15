@@ -26,16 +26,6 @@ import Styles_End_Shopping from "../css/popupEndShopping.module.css";
 import Styles_Product_Edit from "../css/popupAddProduct.module.css";
 
 class ProductListEdit extends Component {
-  // constructor(props) {
-  //   super(props);
-  //   props = {
-  //     // config: {
-  //     //   isShoppingList: (this.props.config && this.props.config.isShoppingList) || false,
-  //     // },
-
-  //     },
-  //   };
-  // }
   constructor(props) {
     super(props);
     this.title = React.createRef();
@@ -50,55 +40,33 @@ class ProductListEdit extends Component {
     editingProductId: null,
   };
   async componentDidMount() {
-    // console.log(this.props, "this.props");
-    // console.log(this.props.userShoppingListId, "userShoppingListId");
-
     if (this.props.config && this.props.config.useActiveShoppingList) {
       await this.setState({ productList: this.props.shoppingList });
-
-      // console.log(
-      //   this.props.userShoppingListId,
-      //   "this.props.userShoppingListId"
-      // );
-      // console.log(
-      //   await this.props.getShoppingList([
-      //     {
-      //       method: "equalTo",
-      //       data: this.props.userShoppingListId,
-      //       key: "objectId",
-      //     },
-      //   ]),
-      //   '      await this.props.getShoppingList([{ method: "equalTo", data: this.props.userShoppingListId, key: "objectId" }])'
-      // );
-      // //  setTimeout(() => {
-      // console.log(this.props.shoppingList, "shoppingList");
-      //  }, 3000);
-      // await this.setState({ productList: this.props.list });
     } else if (
       this.props.config &&
       this.props.config.combineActiveShoppingList
     ) {
-      await this.setState({ productList: this.props.userProductsList });
+      this.setState({ productList: this.props.userProductsList });
     } else {
-      await this.setState({ productList: this.props.userProductsList });
+      this.setState({ productList: this.props.userProductsList });
     }
-    await this.setState({
+    this.setState({
       productList: transformedList(this.state.productList),
     });
     // console.log(getAllFirstLater(this.state.productList), "getAllFirstLater");
-    await this.setState({
+    this.setState({
       activeLaters: getAllFirstLater(this.state.productList),
     });
     if (this.props.config.showCheckbox === true) {
       if (this.props.config.combineActiveShoppingList) {
-        await this.setState({
+        this.setState({
           productList: this.state.productList.map((item) => ({
             ...item,
             status: this.productComparator(item),
           })),
         });
       } else {
-        await this.setState({
+        this.setState({
           productList: this.state.productList.map((item) => ({
             ...item,
             status: false,
@@ -117,20 +85,6 @@ class ProductListEdit extends Component {
       title: product.title,
       desc: product.desc,
     };
-    console.log(
-      this.props.shoppingList,
-      !!this.props.shoppingList.filter((listProduct) => {
-        if (
-          listProduct.title === product.title &&
-          listProduct.desc === product.desc
-        ) {
-          return true;
-        } else {
-          return false;
-        }
-      }).length,
-      "this.props.shoppingList.includes(product)"
-    );
     return !!this.props.shoppingList.filter((listProduct) => {
       if (
         listProduct.title === product.title &&
@@ -146,17 +100,14 @@ class ProductListEdit extends Component {
   openAddProductPopup = () => {
     this.setState({ editingProductId: null });
     this.props.changePopup({ visibility: true });
-    console.log(this.product_name.current, 'this.product_name.current');
+    // console.log(this.product_name.current, 'this.product_name.current');
     // document.getElementById("add-product-form").reset()
   };
 
   saveEditProductResults = (e) => {
     e.preventDefault();
-    const title =  this.product_name.current.value 
-    //document.getElementById("product_name").value;
-    const desc = this.product_desc.current.value 
-    //document.getElementById("product_desc").value;
-
+    const title = this.product_name.current.value;
+    const desc = this.product_desc.current.value;
     this.setState({
       productList: this.state.productList.map((product) => {
         if (product.id === this.state.editingProductId) {
@@ -180,24 +131,14 @@ class ProductListEdit extends Component {
   async onAddProduct(e) {
     e.preventDefault();
     const form = document.getElementById("add-product-form");
-    const name = this.product_name.current.value
-    // document.getElementById("product_name").value;
-    const desc = this.product_desc.current.value
-    // document.getElementById("product_desc").value;
+    const name = this.product_name.current.value;
+    const desc = this.product_desc.current.value;
     const newProduct = { title: name, desc };
     const isElementCreated = this.state.productList.filter(
       (product) =>
         product.title.toLowerCase() === newProduct.title.toLowerCase() &&
         product.desc === newProduct.desc
     );
-    // console.log(isElementCreated, "isElementCreated");
-    // console.log(
-    //   newProduct.title !== "" &&
-    //     !!newProduct.title &&
-    //     isElementCreated.length === 0 &&
-    //     isProductHaveCorrectTitle(newProduct.title),
-    //   'newProduct.title !== "" && !!newProduct.title && isElementCreated.length === 0 && isProductHaveCorrectTitle(newProduct.title)'
-    // );
     if (
       newProduct.title !== "" &&
       !!newProduct.title &&
@@ -222,11 +163,6 @@ class ProductListEdit extends Component {
   }
 
   saveChange = async () => {
-    // const newProductList = this.state.productList.map((product) => ({
-    //   title: product.title,
-    //   desc: product.desc,
-    // }));
-    // newProductList = JSON.stringify(newProductList)
     this.props.changeLoading({
       status: true,
       message: "checkingIsAccountCreated",
@@ -260,15 +196,6 @@ class ProductListEdit extends Component {
           this.state.productList.filter((product) => product.status === false)
         ),
       });
-      console.log(
-        getAllFirstLater(
-          this.state.productList.filter((product) => product.status === false)
-        ),
-        this.state.productList.filter((product) => product.status === false),
-        `activeLaters: getAllFirstLater(
-        this.state.productList.filter((product) => product.status === false)
-      ),`
-      );
     }
   };
 
@@ -276,8 +203,6 @@ class ProductListEdit extends Component {
     const filteredProducts = this.state.productList
       .filter((product) => product.status === true)
       .map((product) => ({ title: product.title, desc: product.desc }));
-
-    console.log(filteredProducts);
     const title = this.title.current.value || "New shopping list";
     const lastEdit = Date.now();
     try {
@@ -330,8 +255,6 @@ class ProductListEdit extends Component {
     const filteredProducts = this.state.productList
       .filter((product) => product.status === true)
       .map((product) => ({ title: product.title, desc: product.desc }));
-
-    // console.log(filteredProducts);
     const title = this.title.current.value || "New shopping list";
     const lastEdit = Date.now();
 
@@ -372,8 +295,7 @@ class ProductListEdit extends Component {
           type="text"
           placeholder="Name product"
           ref={this.product_name}
-          autoFocus 
-
+          autoFocus
         />
         <input
           className={`${Styles_Product_Edit.input} input`}
@@ -381,7 +303,6 @@ class ProductListEdit extends Component {
           type="text"
           placeholder="Description"
           ref={this.product_desc}
-
         />
         {t(this.state.popupValidation)}
         {this.state.editingProductId ? (
@@ -460,12 +381,6 @@ class ProductListEdit extends Component {
     }
 
     if (prevState.productList !== this.state.productList) {
-      // console.log(
-      //   this.state,
-      //   "this.state",
-      //   this.state.activeLaters,
-      //   "this.state.activeLaters"
-      // );
       await this.setState({
         activeLaters: getAllFirstLater(this.state.productList),
       });
@@ -485,14 +400,9 @@ class ProductListEdit extends Component {
 
   setEditingProduct = async (product) => {
     await this.setState({ editingProductId: product.id });
-    console.log(this.state.editingProductId);
-
     await this.props.changePopup({ visibility: true });
     this.product_name.current.value = product.title || "";
     this.product_desc.current.value = product.desc || "";
-
-    // console.log(this.state.editingProductId);
-    // editingProductId
   };
 
   render() {
@@ -619,29 +529,6 @@ class ProductListEdit extends Component {
           onCreateShoppingList={this.createShoppingList}
           onEditShoppingList={this.editShoppingList}
         />
-        {/* 
-        <div className={Styles["bottom-btn-group"]}>
-          <button
-            className={`${Styles["btn"]} ${Styles["btn-create"]}`}
-            onClick={() => this.props.changePopup({ visibility: true })}
-          >
-            {t("Add product")}
-          </button>
-          <button
-            onClick={this.saveChange}
-            className={`${Styles["btn"]} ${Styles["btn-save"]}`}
-          >
-            {t("Save changes")}
-          </button>
-          {this.props.isShoppingList ? (
-            <button
-              onClick={this.createShoppingList}
-              className={`${Styles["btn"]} ${Styles["btn-save"]}`}
-            >
-              {t("Create shopping list")}
-            </button>
-          ) : null}
-        </div> */}
         {this.popupContent()}
       </React.Fragment>
     );
