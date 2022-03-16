@@ -47,7 +47,7 @@ const user = createSlice({
       user.nickName = "";
       user.email = "";
 
-      user.userShoppingList = [];
+      user.userShoppingLists = [];
       user.userProductsList = [];
       user.settings = {};
       localStorage.removeItem("userInfo");

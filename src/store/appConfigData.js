@@ -7,7 +7,7 @@ const appConfigData = createSlice({
       status: false,
       message: "Data_processing",
     },
-
+    requestsInProcess: 0,
     language: "en",
     popup: {
       visibility: false,
@@ -31,6 +31,25 @@ const appConfigData = createSlice({
         data.popup[key] = action.payload[key];
       }
     },
+    changeRequestCounter: (data, action) => {
+      console.log(data.requestsInProcess, 'data.requestsInProcess');
+      if (!!action.payload) {
+        data.requestsInProcess += 1
+      }else{
+        data.requestsInProcess -= 1
+        if (!data.requestsInProcess && !!data.loading.status) {
+          console.log(data.requestsInProcess, 'data.requestsInProcess');
+          data.loading = {
+            status: false,
+            message: "Data_processing",
+          }
+        }
+        else if (!!data.requestsInProcess && !data.loading.status) {
+          data.loading.status = true;
+        }
+      }
+      
+    },
     changeLanguage: (data, action) => {
       data.language = action.payload
     },
@@ -41,7 +60,8 @@ export const {
   changeLoadingStatus: changeLoading,
   changePopupParameters: changePopup,
   setValidationError: validationError,
-  changeLanguage
+  changeLanguage,
+  changeRequestCounter
 } = appConfigData.actions;
 
 export default appConfigData;

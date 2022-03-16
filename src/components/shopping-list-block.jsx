@@ -38,7 +38,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { changeLoading } from "../store/appConfigData";
-import { setActiveListId, getShoppingList } from "../store/shoppingList";
+import { setActiveListId } from "../store/shoppingList";
 import {
   updateShoppingListInUserData,
   deleteProductList,
@@ -97,7 +97,6 @@ function mapStateToProps(state) {
 }
 
 export default connect(mapStateToProps, {
-  getShoppingList,
   setActiveListId,
   updateShoppingListInUserData,
   deleteProductList,

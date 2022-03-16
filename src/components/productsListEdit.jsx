@@ -20,7 +20,7 @@ import "../css/button.css";
 import SearchByLater from "./ui/searchByLater";
 import Checkbox from "./ui/checkbox";
 import BottomActionBtn from "./shoppingList/bottomActionBtn";
-import { editShoppingList, getShoppingList } from "./../store/shoppingList";
+import { editShoppingList } from "./../store/shoppingList";
 import { Link } from "react-router-dom";
 import Styles_End_Shopping from "../css/popupEndShopping.module.css";
 import Styles_Product_Edit from "../css/popupAddProduct.module.css";
@@ -46,27 +46,28 @@ class ProductListEdit extends Component {
       this.props.config &&
       this.props.config.combineActiveShoppingList
     ) {
-      this.setState({ productList: this.props.userProductsList });
+      await this.setState({ productList: this.props.userProductsList });
     } else {
-      this.setState({ productList: this.props.userProductsList });
+      await this.setState({ productList: this.props.userProductsList });
     }
-    this.setState({
+    console.log(this.state.productList, 'this.props.userProductsList this.props.userProductsList this.props.userProductsList this.props.userProductsList this.props.userProductsList');
+    await this.setState({
       productList: transformedList(this.state.productList),
     });
     // console.log(getAllFirstLater(this.state.productList), "getAllFirstLater");
-    this.setState({
+    await this.setState({
       activeLaters: getAllFirstLater(this.state.productList),
     });
     if (this.props.config.showCheckbox === true) {
       if (this.props.config.combineActiveShoppingList) {
-        this.setState({
+        await this.setState({
           productList: this.state.productList.map((item) => ({
             ...item,
             status: this.productComparator(item),
           })),
         });
       } else {
-        this.setState({
+        await this.setState({
           productList: this.state.productList.map((item) => ({
             ...item,
             status: false,
@@ -173,7 +174,7 @@ class ProductListEdit extends Component {
         desc: product.desc,
       })),
     });
-    this.props.changeLoading({ status: false, message: "Data_processing" });
+    // this.props.changeLoading({ status: false, message: "Data_processing" });
   };
 
   changeStatusProduct = async (id) => {
@@ -219,7 +220,7 @@ class ProductListEdit extends Component {
         });
       }
     } finally {
-      this.props.changeLoading({ status: false, message: "Data_processing" });
+      // this.props.changeLoading({ status: false, message: "Data_processing" });
     }
   };
 
@@ -272,7 +273,7 @@ class ProductListEdit extends Component {
         this.props.userShoppingListId
       );
     } finally {
-      this.props.changeLoading({ status: false, message: "Data_processing" });
+      // this.props.changeLoading({ status: false, message: "Data_processing" });
     }
   };
 
@@ -376,7 +377,7 @@ class ProductListEdit extends Component {
           userShoppingLists: this.props.userShoppingList,
         });
       } finally {
-        this.props.changeLoading({ status: false, message: "Data_processing" });
+        // this.props.changeLoading({ status: false, message: "Data_processing" });
       }
     }
 
@@ -406,6 +407,7 @@ class ProductListEdit extends Component {
   };
 
   render() {
+    
     // console.log(this.props.userProductsList, "this.props.userProductsList");
     const { selectedProducts, dontSelectedProducts } =
       this.productsSplicedByStatus();
@@ -415,6 +417,7 @@ class ProductListEdit extends Component {
     const productListNotSelected = this.props.config.dividedByStatus
       ? selectedProducts
       : [];
+      console.log(this.state.productList, productList, 'productList productList productList productList productList');
     return (
       <React.Fragment>
         <SearchByLater />
@@ -568,6 +571,5 @@ export default connect(mapStateToProps, {
   addProductToList,
   createNewProductList,
   updateShoppingListInUserData,
-  getShoppingList,
   editShoppingList,
 })(ProductListEdit);

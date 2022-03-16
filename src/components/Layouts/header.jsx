@@ -42,10 +42,10 @@ class AppHeader extends Component {
   };
 
   logoutAccount = async () => {
-    this.props.changeLoading({ status: true, message: "Logout user" });
+    // this.props.changeLoading({ status: true, message: "Logout user" });
     await this.props.logout();
     await this.props.changePopup({ visibility: true });
-    this.props.changeLoading({ status: false, message: "Data_processing" });
+    // this.props.changeLoading({ status: false, message: "Data_processing" });
   };
 
   render() {

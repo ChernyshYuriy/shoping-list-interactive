@@ -78,7 +78,7 @@ class ShoppingListDisplay extends Component {
           userShoppingLists: this.props.userShoppingList,
         });
       } finally {
-        this.props.changeLoading({ status: false, message: "Data_processing" });
+        // this.props.changeLoading({ status: false, message: "Data_processing" });
       }
     }
   }
@@ -93,6 +93,7 @@ class ShoppingListDisplay extends Component {
 
       await this.props.deleteProductList(id);
       await this.props.changeLoading({
+        status: true,
         message: "attach to account shopping list",
       });
 
@@ -102,7 +103,7 @@ class ShoppingListDisplay extends Component {
         ),
       });
     } finally {
-      this.props.changeLoading({ status: false, message: "Data_processing" });
+      // this.props.changeLoading({ status: false, message: "Data_processing" });
     }
   };
 
@@ -113,7 +114,10 @@ class ShoppingListDisplay extends Component {
     // await dispatch(
     await this.setState({ nextPageUrl: url });
     // alert(this.state.nextPageUrl);
-
+    await this.props.changeLoading({
+      status: true,
+      message: "attach to account shopping list",
+    });
     await this.props.setActiveListId(id);
 
     await this.props.getShoppingList([
@@ -137,7 +141,40 @@ class ShoppingListDisplay extends Component {
               to={"/create-product-list"}
               className={`${Styles.content} ${Styles["content--offset-bottom"]} ${Styles.title}`}
             >
-              {t("Create new list")}
+              <div className={Styles["icon-cross"]}>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  enable-background="new 0 0 50 50"
+                  height="50px"
+                  id="Layer_1"
+                  version="1.1"
+                  viewBox="0 0 50 50"
+                  width="50px"
+                >
+                  <rect fill="none" height="50" width="50" />
+                  <line
+                    fill="none"
+                    stroke="#000000"
+                    stroke-miterlimit="10"
+                    stroke-width="4"
+                    x1="9"
+                    x2="41"
+                    y1="25"
+                    y2="25"
+                  />
+                  <line
+                    fill="none"
+                    stroke="#000000"
+                    stroke-miterlimit="10"
+                    stroke-width="4"
+                    x1="25"
+                    x2="25"
+                    y1="9"
+                    y2="41"
+                  />
+                </svg>
+              </div>
+              <div>{t("Create new list")}</div>
             </Link>
           </div>
 

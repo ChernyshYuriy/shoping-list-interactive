@@ -1,5 +1,6 @@
 // import axios from "axios";
 import * as actions from "../api";
+import { changeRequestCounter } from "../appConfigData";
 
 const Parse = require("parse");
 Parse.serverURL = "https://parseapi.back4app.com"; // This is your Server URL
@@ -37,6 +38,10 @@ const api =
     } else if (onStart) dispatch({ type: onStart });
 
     next(action);
+
+    dispatch(changeRequestCounter(1))
+
+    console.log(getState(), 'getState()');
 
     try {
       await (async () => {
@@ -224,6 +229,7 @@ const api =
           payload: { status: false, message: "Data processing" },
         });
       } else if (onFinish) dispatch();
+      dispatch(changeRequestCounter(0))
       // if (onFinish && isThisLastAPI)
       //   dispatch({
       //     type: onFinish,

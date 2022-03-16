@@ -1,4 +1,5 @@
 import * as actions from "../apiLogin";
+import { changeRequestCounter } from "../appConfigData";
 
 const Parse = require("parse");
 Parse.serverURL = "https://parseapi.back4app.com"; // This is your Server URL
@@ -31,6 +32,10 @@ const apiLogin =
       onError,
       // loadingMassage = "Data_processing",
     } = action.payload;
+
+
+    console.log(getState(), 'getState()');
+    dispatch(changeRequestCounter(1))
 
     // try {
     const User = new Parse.User();
@@ -173,6 +178,7 @@ const apiLogin =
       }
       apiResponse = null;
       apiError = "";
+      dispatch(changeRequestCounter(0))
     })();
     // } catch (error) {
 

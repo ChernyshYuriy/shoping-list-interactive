@@ -51,7 +51,7 @@ class LoginUser extends Component {
       // const nickName = document.getElementById("nickName").value.toLowerCase();
       // const pinCode = document.getElementById("pinCode").value;
       // const email = document.getElementById("email").value;
-      const nickName = this.nickName.current.value;
+      const nickName = this.nickName.current.value.toLowerCase();
       const pinCode = this.pinCode.current.value;
       const email = this.email.current.value;
       // console.log(this.nickName.current.value,
@@ -59,12 +59,18 @@ class LoginUser extends Component {
       //   this.email.current.value, "Ref");
       // console.log(nickName, pinCode, email);
       if (this.state.popupFunctionalityStatus === "login") {
-        await this.props.changeLoading({ message: "getUserData" });
+        await this.props.changeLoading({
+          status: true,
+          message: "getUserData",
+        });
         await this.props.loginUser(nickName, pinCode);
         localStorage.setItem("nickName", nickName);
         this.setState({ nickName });
       } else if (this.state.popupFunctionalityStatus === "createAccount") {
-        await this.props.changeLoading({ message: "creatingAccount" });
+        await this.props.changeLoading({
+          status: true,
+          message: "creatingAccount",
+        });
         await this.props.createAccount(nickName, pinCode, email);
         localStorage.setItem("nickName", nickName);
         this.setState({ nickName });
@@ -148,7 +154,7 @@ class LoginUser extends Component {
       //   selectedUser.length !== 0
       // ) this.setState({isLastActionSuccess: { status: false, massage: "createAccountFailed" }})
     } finally {
-      this.props.changeLoading({ status: false, message: "Data_processing" });
+      // this.props.changeLoading({ status: false, message: "Data_processing" });
     }
   }
 
@@ -227,7 +233,7 @@ class LoginUser extends Component {
                       ? "none"
                       : "block",
                 }}
-                type="text"
+                type="email"
                 className="input"
                 name=""
                 // ref={this.nickNameRef}
