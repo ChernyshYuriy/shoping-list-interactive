@@ -18,13 +18,14 @@ import {
 } from "../store/userInfo";
 import "../css/button.css";
 import SearchByLater from "./ui/searchByLater";
-import Checkbox from "./ui/checkbox";
+// import Checkbox from "./ui/checkbox";
 import BottomActionBtn from "./shoppingList/bottomActionBtn";
 import { editShoppingList } from "./../store/shoppingList";
 import { Link } from "react-router-dom";
 import Styles_End_Shopping from "../css/popupEndShopping.module.css";
 import Styles_Product_Edit from "../css/popupAddProduct.module.css";
-
+import SelectedProduct from "./shoppingList/selectedProduct";
+import NotSelectedProduct from "./shoppingList/NotSelectedProduct";
 class ProductListEdit extends Component {
   constructor(props) {
     super(props);
@@ -50,7 +51,10 @@ class ProductListEdit extends Component {
     } else {
       await this.setState({ productList: this.props.userProductsList });
     }
-    console.log(this.state.productList, 'this.props.userProductsList this.props.userProductsList this.props.userProductsList this.props.userProductsList this.props.userProductsList');
+    console.log(
+      this.state.productList,
+      "this.props.userProductsList this.props.userProductsList this.props.userProductsList this.props.userProductsList this.props.userProductsList"
+    );
     await this.setState({
       productList: transformedList(this.state.productList),
     });
@@ -407,7 +411,6 @@ class ProductListEdit extends Component {
   };
 
   render() {
-    
     // console.log(this.props.userProductsList, "this.props.userProductsList");
     const { selectedProducts, dontSelectedProducts } =
       this.productsSplicedByStatus();
@@ -417,7 +420,11 @@ class ProductListEdit extends Component {
     const productListNotSelected = this.props.config.dividedByStatus
       ? selectedProducts
       : [];
-      console.log(this.state.productList, productList, 'productList productList productList productList productList');
+    console.log(
+      this.state.productList,
+      productList,
+      "productList productList productList productList productList"
+    );
     return (
       <React.Fragment>
         <SearchByLater />
@@ -436,49 +443,14 @@ class ProductListEdit extends Component {
                   .filter((product) => product.searchLater === later)
                   .map((product) => {
                     return (
-                      <div className={Styles["product"]} key={product.id}>
-                        <div className="row">
-                          {this.props.config.showCheckbox ? (
-                            <div
-                              className={Styles["checkbox-container"]}
-                              onClick={() =>
-                                this.changeStatusProduct(product.id)
-                              }
-                            >
-                              <Checkbox status={product.status} />
-                            </div>
-                          ) : null}
-                          <div>
-                            <div
-                              id={product.title}
-                              className={Styles["product-title"]}
-                            >
-                              {product.title}
-                            </div>
-                            {product.desc ? (
-                              <div className={Styles["product-description"]}>
-                                {t("desc")}: {product.desc}
-                              </div>
-                            ) : null}
-                          </div>
-                        </div>
-                        {this.props.config.showProductActions ? (
-                          <div className={Styles["product-btn-group"]}>
-                            <button
-                              className="btn btn-edit btn-edit--shopping-list"
-                              onClick={() => this.setEditingProduct(product)}
-                            >
-                              {t("Edit")}
-                            </button>
-                            <button
-                              className="btn btn-delete btn-delete--shopping-list"
-                              onClick={() => this.deleteProduct(product.id)}
-                            >
-                              {t("Delete")}
-                            </button>
-                          </div>
-                        ) : null}
-                      </div>
+                      <NotSelectedProduct
+                        key={product.id}
+                        product={product}
+                        config={this.props.config}
+                        changeStatusProduct={this.changeStatusProduct}
+                        setEditingProduct={this.setEditingProduct}
+                        deleteProduct={this.deleteProduct}
+                      />
                     );
                   })}
               </div>
@@ -492,34 +464,11 @@ class ProductListEdit extends Component {
             </div>
             {productListNotSelected.map((product) => {
               return (
-                <div
-                  className={`${Styles.product} ${Styles["product--selected"]}`}
-                  key={product.id}
-                >
-                  {this.props.config.showCheckbox ? (
-                    <div className="row">
-                      <div
-                        className={Styles["checkbox-container"]}
-                        onClick={() => this.changeStatusProduct(product.id)}
-                      >
-                        <Checkbox
-                          status={product.status}
-                          alternativeColor={true}
-                        />
-                      </div>
-                      <span>
-                        <div className={Styles["product-title"]}>
-                          {product.title}
-                        </div>
-                        {product.desc ? (
-                          <div className={Styles["product-description"]}>
-                            {t("desc")}: {product.desc}
-                          </div>
-                        ) : null}
-                      </span>
-                    </div>
-                  ) : null}
-                </div>
+                <SelectedProduct
+                  product={product}
+                  showCheckbox={this.props.config.showCheckbox}
+                  changeStatusProduct={this.changeStatusProduct}
+                />
               );
             })}
           </div>
