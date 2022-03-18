@@ -237,7 +237,7 @@ class ProductListEdit extends Component {
           id="title"
           type="text"
           ref={this.title}
-          placeholder={t("name_shopping_list")}
+          // placeholder={t("name_shopping_list")}
         />
       </div>
     );
@@ -427,13 +427,13 @@ class ProductListEdit extends Component {
     );
     return (
       <React.Fragment>
-        <SearchByLater />
+        <SearchByLater productList={productList}/>
         {this.titleContent()}
         {this.state.activeLaters.map((later) => {
           return (
             <div key={later}>
               <h3 className={Styles["later-title"]}>
-                <a id={`#${later}`} href={`#${later}`}>
+                <a data-id={later} id={`#${later}`} href={`#${later}`}>
                   {later.toUpperCase()}
                 </a>
               </h3>

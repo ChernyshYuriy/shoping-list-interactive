@@ -50,6 +50,7 @@
   position: relative;
   display: flex;
   justify-content: space-between;
+  border-radius: 7px;
   /* border-bottom: 1px solid #000; */
 }
 

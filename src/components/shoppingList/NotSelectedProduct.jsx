@@ -5,7 +5,7 @@ import { t } from "i18next";
 function NotSelectedProduct(props) {
   const product = props.product;
   return (
-    <div className={Styles["product"]} key={product.id}>
+    <div className={Styles["product"]} key={product.id} data-id={product.title.toLowerCase()}>
       <div className="row">
         {props.config.showCheckbox ? (
           <div

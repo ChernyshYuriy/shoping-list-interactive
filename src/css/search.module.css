@@ -1,4 +1,4 @@
-.search{
+.search {
   display: flex;
   flex-direction: column;
   left: auto;
@@ -16,7 +16,37 @@
   margin-bottom: 5px;
 }
 
-.label{
+.active-search {
+  transition: all 0.3s;
+  animation-name: findSearch;
+  animation-duration: 3s;
+}
+
+@keyframes findSearch {
+  0% {
+    background: rgba(19, 97, 0, 0.05);
+  }
+  20% {
+    background: rgba(0, 13, 188, 0.4);
+  }
+  40%{
+    background: rgba(19, 97, 0, 0.05);
+  }
+  60% {
+    background: rgb(0, 13, 188, 0.2);
+  }
+  80%{
+    background: rgba(19, 97, 0, 0.05);
+  }
+  95% {
+    background: rgb(0, 13, 188, 0.1);
+  }
+  100%{
+    background: rgba(19, 97, 0, 0.05);
+  }
+}
+
+.label {
   font-size: 16px;
 }
 .input {
@@ -46,7 +76,7 @@
   box-shadow: 0px 0px 3px rgb(3, 93, 0);
 }
 
-.error{
+.error {
   color: #da1002;
   font-size: 14px;
 }
