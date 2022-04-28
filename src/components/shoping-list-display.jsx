@@ -60,7 +60,11 @@ class ShoppingListDisplay extends Component {
       // let id = !this.state.nextPageIsEdit ? this.props.userShoppingListId : "";
       // console.log("REDIRECT");
       // alert("!!!!!" + this.state.nextPageUrl);
-      this.props.nav(this.state.nextPageUrl);
+
+
+      // this.props.nav(this.state.nextPageUrl);
+      
+      
       // console.log("REDIRECT END");
     }
     // if (prevProps !== this.props) {

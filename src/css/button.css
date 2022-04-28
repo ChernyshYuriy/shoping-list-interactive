@@ -18,6 +18,11 @@
   color: #fff;
 }
 
+.btn-link{
+  padding: 0;
+  text-decoration: none;
+}
+
 .btn-save {
   box-shadow: 0px 0px 3px rgb(26, 110, 62);
   background-color: rgba(0, 131, 57);

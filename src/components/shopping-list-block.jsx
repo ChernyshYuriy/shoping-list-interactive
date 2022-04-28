@@ -43,9 +43,10 @@ import {
   updateShoppingListInUserData,
   deleteProductList,
 } from "./../store/userInfo";
-import '../css/button.css'
+import "../css/button.css";
 import Styles from "../css/shopping-lists.module.css";
 import { t } from "i18next";
+import { Link } from "react-router-dom";
 
 class ShoppingListBlock extends Component {
   // .then(this.props.history.push(`/product-list?listId=${id}`));
@@ -56,28 +57,39 @@ class ShoppingListBlock extends Component {
   }
 
   render() {
-    const { onOpenShoppingList, onDeleteShoppingList, list } = this.props;
+    const { list } = this.props;
     const { id, title, lastEdit } = list;
 
     return (
       <div className={Styles.list}>
+        <Link className="link" to={`/shopping-list/${id}`}>
+          12
+        </Link>
         <div
           className={Styles.content}
-          onClick={(e) => onOpenShoppingList(e, id, `/shopping-list?${id}`)}
+          // onClick={(e) => onOpenShoppingList(e, id, `/shopping-list?${id}`)}
         >
-          <div className={Styles.title}>{title}</div>
-          {this.formattingDate(lastEdit)}
+          <Link to={`/shopping-list/${id}`} className={Styles['content-body']}>
+            <div className={Styles.title}>{title}</div>
+            {this.formattingDate(lastEdit)}
+          </Link>
+
           <div className={Styles["btn-group"]}>
-            <button
-            className="btn btn-edit"
-              onClick={(e) =>
-                onOpenShoppingList(e, id, `/edit-shopping-list?${id}`)
-              }
+            <Link
+            to={`/edit-shopping-list?${id}`}
+              className="btn btn-edit btn-link"
+              // onClick={(e) =>
+              //   onOpenShoppingList(e, id, `/edit-shopping-list?${id}`)
+              // }
             >
               {t("Edit")}
-            </button>
+            </Link>
             <button
-            className="btn btn-delete" onClick={(e) => onDeleteShoppingList(e, id)}>{t("Delete")}</button>
+              className="btn btn-delete"
+              // onClick={(e) => onDeleteShoppingList(e, id)}
+            >
+              {t("Delete")}
+            </button>
           </div>
         </div>
       </div>

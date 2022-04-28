@@ -119,7 +119,7 @@ function App({ t }) {
               element={<CreateProductList />}
             />
             <Route
-              path="/shopping-list"
+              path="/shopping-list/:id"
               element={
                 <ShoppingList
                   activeListId={

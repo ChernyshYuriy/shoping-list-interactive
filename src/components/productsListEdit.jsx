@@ -20,7 +20,7 @@ import "../css/button.css";
 import SearchByLater from "./ui/searchByLater";
 // import Checkbox from "./ui/checkbox";
 import BottomActionBtn from "./shoppingList/bottomActionBtn";
-import { editShoppingList } from "./../store/shoppingList";
+import { editShoppingList, getShoppingList, setActiveListId } from "./../store/shoppingList";
 import { Link } from "react-router-dom";
 import Styles_End_Shopping from "../css/popupEndShopping.module.css";
 import Styles_Product_Edit from "../css/popupAddProduct.module.css";
@@ -29,6 +29,9 @@ import NotSelectedProduct from "./shoppingList/NotSelectedProduct";
 class ProductListEdit extends Component {
   constructor(props) {
     super(props);
+
+    console.log("constructor");
+    console.log(props.params);
     this.title = React.createRef();
     this.product_name = React.createRef();
     this.product_desc = React.createRef();
@@ -42,6 +45,27 @@ class ProductListEdit extends Component {
     extraParams: [],
   };
   async componentDidMount() {
+    const getPathId = (thePath) =>
+      thePath.substring(thePath.lastIndexOf("/") + 1);
+    console.log(getPathId(window.location.href), "safasfafs");
+    if (
+      (this.props.config && this.props.config.useActiveShoppingList) ||
+      this.props.config.combineActiveShoppingList
+    ) {
+      await this.props.changeLoading({
+        status: true,
+        message: "attach to account shopping list",
+      });
+      await this.props.setActiveListId(getPathId);
+
+      await this.props.getShoppingList([
+        { method: "equalTo", data: getPathId, key: "objectId" },
+      ]);
+    }
+    await this.productConstructor();
+  }
+
+  productConstructor = async () => {
     if (this.props.config && this.props.config.useActiveShoppingList) {
       await this.setState({ productList: this.props.shoppingList });
     } else if (
@@ -84,7 +108,7 @@ class ProductListEdit extends Component {
       this.title.current.value = this.props.shoppingListTitle;
       // document.getElementById("title").value = this.props.shoppingListTitle;
     }
-  }
+  };
 
   productComparator = (product) => {
     product = {
@@ -205,8 +229,7 @@ class ProductListEdit extends Component {
       form.reset();
       await this.props.addProductToList(newProduct);
       this.setState({
-        popupValidation:
-          "",
+        popupValidation: "",
       });
       await this.props.changePopup({ visibility: false });
     } else if (!isProductHaveCorrectTitle(newProduct.title)) {
@@ -556,6 +579,10 @@ class ProductListEdit extends Component {
         activeLaters: getAllFirstLater(this.state.productList),
       });
     }
+
+    if (prevState.shoppingList !== this.state.shoppingList) {
+      this.productComparator();
+    }
   }
 
   productsSplicedByStatus = () => {
@@ -702,4 +729,6 @@ export default connect(mapStateToProps, {
   createNewProductList,
   updateShoppingListInUserData,
   editShoppingList,
+  setActiveListId,
+getShoppingList
 })(ProductListEdit);
