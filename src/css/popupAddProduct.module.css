@@ -1,8 +1,47 @@
-.action-btn{
-    margin-top: 16px;
-    max-width: 120px;
+.action-btn {
+  margin-top: 16px;
+  max-width: 120px;
 }
 
-.action-btn:hover{
-    transform: scale(100%);
+.action-btn:hover {
+  transform: scale(100%);
+}
+
+.add-parameter {
+  cursor: pointer;
+  margin-top: 10px;
+  display: flex;
+  align-items: center;
+  color: blue;
+}
+
+.add-parameter svg {
+  fill: blue;
+}
+
+.extra-parameter {
+  display: flex;
+  align-items: center;
+  margin-top: 10px;
+  font-weight: bold;
+  padding-right: 10px;
+}
+
+.extra-parameter__input {
+  width: max-content;
+  border-radius: 5px;
+  box-shadow: none;
+  border: 1px solid #fff;
+  height: 20px;
+  margin: 0px 5px;
+}
+
+.extra-parameter__input:first-child {
+  margin-left: 0;
+}
+
+@media screen and (max-width: 800px) {
+    .extra-parameter__input{
+        width: 114px;
+    }
 }

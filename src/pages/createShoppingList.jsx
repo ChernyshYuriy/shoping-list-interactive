@@ -11,6 +11,7 @@ class CreateProductList extends Component {
             editTitle: true,
             showCheckbox: true,
             showProductActions: true,
+            addProductListParams: true,
             activeButtons: {
               addProduct: true,
               saveChanges: true,

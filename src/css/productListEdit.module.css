@@ -51,6 +51,7 @@
   display: flex;
   justify-content: space-between;
   border-radius: 7px;
+  transition: all .3s;
   /* border-bottom: 1px solid #000; */
 }
 

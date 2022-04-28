@@ -80,6 +80,7 @@ const allAlphabet = alphabetEng.concat(alphabetWestEU);
 
 export const isProductHaveCorrectTitle = (title) => {
   console.log(title, "title");
+  if (!title) return false
   const firstLater = title.trim()[0].toLowerCase();
   console.log(typeof firstLater, firstLater, "firstLater");
   console.log(
