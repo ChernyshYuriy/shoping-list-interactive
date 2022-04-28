@@ -62,9 +62,6 @@ class ShoppingListBlock extends Component {
 
     return (
       <div className={Styles.list}>
-        <Link className="link" to={`/shopping-list/${id}`}>
-          12
-        </Link>
         <div
           className={Styles.content}
           // onClick={(e) => onOpenShoppingList(e, id, `/shopping-list?${id}`)}

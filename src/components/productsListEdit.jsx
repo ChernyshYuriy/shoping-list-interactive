@@ -607,7 +607,7 @@ class ProductListEdit extends Component {
     //     ? Object.keys(product.extraParams)
     //     : [];
     // console.log(product, " product 12 product");
-    this.setState({ extraParams: product.extraParams });
+    this.setState({ extraParams: product.extraParams || [] });
     // if (extraParamsKeys.length > 1) {
     //   extraParamsKeys.forEach((key) => {
     //     document.getElementById(key).value = key;
