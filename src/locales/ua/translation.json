@@ -36,5 +36,7 @@
     "desc": "Опис",
     "Create new list": "Створити новий список",
     "Name":"Назва",
-    "List name":"Назва списку"
+    "Value":"Значення",
+    "List name":"Назва списку",
+    "Can find only first later":"Знайдено лише першу літеру"
   }

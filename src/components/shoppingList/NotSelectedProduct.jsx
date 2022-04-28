@@ -5,7 +5,7 @@ import { t } from "i18next";
 function NotSelectedProduct(props) {
   const product = props.product;
   return (
-    <div className={Styles["product"]} key={product.id}>
+    <div className={Styles["product"]} data-id={product.title.toLowerCase()}>
       <div className="row">
         {props.config.showCheckbox ? (
           <div
@@ -24,6 +24,17 @@ function NotSelectedProduct(props) {
               {t("desc")}: {product.desc}
             </div>
           ) : null}
+          {product.extraParams !== undefined
+            ? product.extraParams.map((parameter) => {
+                return (
+                  <div key={parameter.id} className={Styles["product-description"]}>
+                    <span>{parameter.key}</span> 
+                    {parameter.value ? ": " : null}
+                    <span>{parameter.value}</span>
+                  </div>
+                );
+              })
+            : null}
         </div>
       </div>
       {props.config.showProductActions ? (

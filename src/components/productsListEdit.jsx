@@ -39,6 +39,7 @@ class ProductListEdit extends Component {
     activeLaters: [],
     popupValidation: "",
     editingProductId: null,
+    extraParams: [],
   };
   async componentDidMount() {
     if (this.props.config && this.props.config.useActiveShoppingList) {
@@ -51,10 +52,10 @@ class ProductListEdit extends Component {
     } else {
       await this.setState({ productList: this.props.userProductsList });
     }
-    console.log(
-      this.state.productList,
-      "this.props.userProductsList this.props.userProductsList this.props.userProductsList this.props.userProductsList this.props.userProductsList"
-    );
+    // console.log(
+    //   this.state.productList,
+    //   "this.props.userProductsList this.props.userProductsList this.props.userProductsList this.props.userProductsList this.props.userProductsList"
+    // );
     await this.setState({
       productList: transformedList(this.state.productList),
     });
@@ -89,6 +90,7 @@ class ProductListEdit extends Component {
     product = {
       title: product.title,
       desc: product.desc,
+      extraParams: product.extraParams,
     };
     return !!this.props.shoppingList.filter((listProduct) => {
       if (
@@ -104,6 +106,7 @@ class ProductListEdit extends Component {
 
   openAddProductPopup = () => {
     this.setState({ editingProductId: null });
+    this.setState({ extraParams: [] });
     this.props.changePopup({ visibility: true });
     // console.log(this.product_name.current, 'this.product_name.current');
     // document.getElementById("add-product-form").reset()
@@ -113,15 +116,49 @@ class ProductListEdit extends Component {
     e.preventDefault();
     const title = this.product_name.current.value;
     const desc = this.product_desc.current.value;
+    const getValueFromInput = (id) => {
+      return document.getElementById(id).value;
+    };
+    const extraParamsData = this.state.extraParams.map((parameter) => {
+      return {
+        id: parameter.id,
+        key: getValueFromInput(`${parameter.id}-key`) || "Parameter",
+        value: getValueFromInput(`${parameter.id}-value`),
+      };
+    });
+    // console.log(
+    //   extraParamsData,
+    //   "extraParamsData extraParamsData extraParamsData"
+    // );
     this.setState({
       productList: this.state.productList.map((product) => {
         if (product.id === this.state.editingProductId) {
-          return { ...product, title, desc };
+          return { ...product, title, desc, extraParams: extraParamsData };
         }
         return product;
       }),
     });
+    // console.log(
+    //   this.state.productList.map((product) => {
+    //     if (product.id === this.state.editingProductId) {
+    //       return { ...product, title, desc, extraParams: extraParamsData };
+    //     }
+    //     return product;
+    //   })
+    // );
     this.props.changePopup({ visibility: false });
+  };
+
+  addAdditionalParameters = () => {
+    let newId = String(new Date() / 1000);
+    this.setState({
+      extraParams: [
+        ...this.state.extraParams,
+        { id: newId, key: "", value: "" },
+      ],
+    });
+    // console.log(this.state.extraParams, "this.state.extraParams");
+    // this.state.editingProductId
   };
 
   deleteProduct = (id) => {
@@ -138,7 +175,18 @@ class ProductListEdit extends Component {
     const form = document.getElementById("add-product-form");
     const name = this.product_name.current.value;
     const desc = this.product_desc.current.value;
-    const newProduct = { title: name, desc };
+    const getValueFromInput = (id) => {
+      return document.getElementById(id).value;
+    };
+    const extraParamsData = this.state.extraParams.map((parameter) => {
+      return {
+        id: parameter.id,
+        key: getValueFromInput(`${parameter.id}-key`) || "Parameter",
+        value: getValueFromInput(`${parameter.id}-value`),
+      };
+    });
+    const newProduct = { title: name, desc, extraParams: extraParamsData };
+
     const isElementCreated = this.state.productList.filter(
       (product) =>
         product.title.toLowerCase() === newProduct.title.toLowerCase() &&
@@ -156,11 +204,15 @@ class ProductListEdit extends Component {
 
       form.reset();
       await this.props.addProductToList(newProduct);
+      this.setState({
+        popupValidation:
+          "",
+      });
       await this.props.changePopup({ visibility: false });
     } else if (!isProductHaveCorrectTitle(newProduct.title)) {
       this.setState({
         popupValidation:
-          "title_must_start_from_number_or_latin_or_cyrillic_later ",
+          "title_must_start_from_number_or_latin_or_cyrillic_later",
       });
     } else if (isElementCreated.length > 0) {
       this.setState({ popupValidation: "this_product_is_already_added" });
@@ -176,6 +228,8 @@ class ProductListEdit extends Component {
       userProductsList: this.state.productList.map((product) => ({
         title: product.title,
         desc: product.desc,
+        extraParams:
+          product.extraParams !== undefined ? product.extraParams : [],
       })),
     });
     // this.props.changeLoading({ status: false, message: "Data_processing" });
@@ -207,7 +261,11 @@ class ProductListEdit extends Component {
   createShoppingList = async () => {
     const filteredProducts = this.state.productList
       .filter((product) => product.status === true)
-      .map((product) => ({ title: product.title, desc: product.desc }));
+      .map((product) => ({
+        title: product.title,
+        desc: product.desc,
+        extraParams: product.extraParams,
+      }));
     const title = this.title.current.value || "New shopping list";
     const lastEdit = Date.now();
     try {
@@ -237,7 +295,7 @@ class ProductListEdit extends Component {
           id="title"
           type="text"
           ref={this.title}
-          placeholder={t("name_shopping_list")}
+          // placeholder={t("name_shopping_list")}
         />
       </div>
     );
@@ -281,6 +339,14 @@ class ProductListEdit extends Component {
     }
   };
 
+  deleteExtraParameter = (id) => {
+    this.setState({
+      extraParams: this.state.extraParams.filter(
+        (parameter) => parameter.id !== id
+      ),
+    });
+  };
+
   popupContent = () => {
     const { selectedProducts, dontSelectedProducts } =
       this.productsSplicedByStatus();
@@ -309,7 +375,107 @@ class ProductListEdit extends Component {
           placeholder="Description"
           ref={this.product_desc}
         />
+        {this.state.extraParams.map((parameter) => {
+          return (
+            <div
+              className={Styles_Product_Edit["extra-parameter"]}
+              key={parameter.id}
+            >
+              <input
+                className={`${Styles_Product_Edit["extra-parameter__input"]}`}
+                type="text"
+                name=""
+                defaultValue={parameter.key}
+                id={`${parameter.id}-key`}
+                placeholder={t("Name")}
+              />
+              {" : "}
+              <input
+                className={`${Styles_Product_Edit["extra-parameter__input"]}`}
+                type="text"
+                name=""
+                defaultValue={parameter.value}
+                id={`${parameter.id}-value`}
+                placeholder={t("Value")}
+              />
+              <svg
+                className="clickable"
+                onClick={() => this.deleteExtraParameter(parameter.id)}
+                xmlns="http://www.w3.org/2000/svg"
+                width="16"
+                height="16"
+                fill="currentColor"
+                viewBox="0 0 16 16"
+              >
+                <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z" />
+                <path
+                  fillRule="evenodd"
+                  d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z"
+                />
+              </svg>
+              {/* <span onClick={() => this.deleteExtraParameter(parameter.id)}>
+                {t('Delete')}
+              </span> */}
+            </div>
+          );
+        })}
         {t(this.state.popupValidation)}
+        <div
+          className={`${Styles_Product_Edit["add-parameter"]}`}
+          onClick={this.addAdditionalParameters}
+        >
+          {/* <svg
+            xmlns="http://www.w3.org/2000/svg"
+            height="24px"
+            id="Layer_1"
+            version="1.1"
+            viewBox="0 0 50 50"
+            width="24px"
+          >
+            <rect fill="none" height="50" width="50"></rect>
+            <line
+              fill="none"
+              stroke="#000000"
+              x1="9"
+              x2="41"
+              y1="25"
+              y2="25"
+            ></line>
+            <line
+              fill="none"
+              stroke="#000000"
+              x1="25"
+              x2="25"
+              y1="9"
+              y2="41"
+            ></line>
+          </svg> */}
+          {t("Add costume parameters")}
+        </div>
+        {/* {Object.keys(this.state.extraParams).map(
+          (parameter) => {
+            return (
+              <div>
+                <input
+                  className={`${Styles_Product_Edit.input} input`}
+                  id={parameter.id}
+                  type="text"
+                  placeholder="Description"
+                  value={parameter}
+                />
+                <input
+                  className={`${Styles_Product_Edit.input} input`}
+                  id={this.state.extraParams[parameter]}
+                  type="text"
+                  placeholder="Description"
+                  value={
+                    this.state.extraParams[parameter]
+                  }
+                />
+              </div>
+            );
+          }
+        )} */}
         {this.state.editingProductId ? (
           <button
             className={`${Styles_Product_Edit["action-btn"]} btn btn-edit`}
@@ -404,10 +570,24 @@ class ProductListEdit extends Component {
   };
 
   setEditingProduct = async (product) => {
+    this.setState({ extraParams: [] });
     await this.setState({ editingProductId: product.id });
     await this.props.changePopup({ visibility: true });
     this.product_name.current.value = product.title || "";
     this.product_desc.current.value = product.desc || "";
+    // const extraParamsKeys =
+    //   product.extraParams !== undefined
+    //     ? Object.keys(product.extraParams)
+    //     : [];
+    // console.log(product, " product 12 product");
+    this.setState({ extraParams: product.extraParams });
+    // if (extraParamsKeys.length > 1) {
+    //   extraParamsKeys.forEach((key) => {
+    //     document.getElementById(key).value = key;
+    //     document.getElementById(product.extraParams[key]).value =
+    //       product.extraParams[key];
+    //   });
+    // }
   };
 
   render() {
@@ -420,20 +600,20 @@ class ProductListEdit extends Component {
     const productListNotSelected = this.props.config.dividedByStatus
       ? selectedProducts
       : [];
-    console.log(
-      this.state.productList,
-      productList,
-      "productList productList productList productList productList"
-    );
+    // console.log(
+    //   this.state.productList,
+    //   productList,
+    //   "productList productList productList productList productList"
+    // );
     return (
       <React.Fragment>
-        <SearchByLater />
+        <SearchByLater productList={productList} />
         {this.titleContent()}
         {this.state.activeLaters.map((later) => {
           return (
             <div key={later}>
               <h3 className={Styles["later-title"]}>
-                <a id={`#${later}`} href={`#${later}`}>
+                <a data-id={later} id={`#${later}`} href={`#${later}`}>
                   {later.toUpperCase()}
                 </a>
               </h3>
@@ -493,6 +673,7 @@ ProductListEdit.defaultProps = {
     dividedByStatus: false,
     showCheckbox: false,
     showProductActions: false,
+    addProductListParams: false,
     activeButtons: {
       addProduct: false,
       saveChanges: false,
