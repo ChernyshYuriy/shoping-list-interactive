@@ -33,18 +33,12 @@ const apiLogin =
       // loadingMassage = "Data_processing",
     } = action.payload;
 
-
-    console.log(getState(), 'getState()');
-    dispatch(changeRequestCounter(1))
+    dispatch(changeRequestCounter(1));
 
     // try {
     const User = new Parse.User();
     const query = new Parse.Query(User);
     (async () => {
-      console.log(
-        method,
-        "method method method method method method method method method method method method method method method method method method method method method method method method method method method method method method method method method method method method method method method method method method method method method method method method method method method method method method "
-      );
       const expr = method;
       switch (expr) {
         case "createAccount":
@@ -56,8 +50,6 @@ const apiLogin =
           try {
             let userResult = await user.signUp();
             apiResponse = JSON.stringify(userResult);
-
-            console.log("User signed up", userResult);
           } catch (error) {
             console.error("Error while signing up user", error);
             apiError = error;
@@ -112,8 +104,6 @@ const apiLogin =
           try {
             let user = await query.get(userId);
             apiResponse = JSON.stringify(user);
-
-            console.log("User found", user);
           } catch (error) {
             console.error("Error while fetching user", error);
           }
@@ -138,17 +128,15 @@ const apiLogin =
 
             const dataKeys = Object.keys(data);
             dataKeys.forEach((key) => {
-              console.log(key, data[key], "key, data[key]");
               user.set(key, data[key]);
             });
             // user.set("username", nickName);
             // user.set("email", email);
             // user.set("settings", setting);
             // Saves the user with the updated data
-            let response = await user.save();
-            console.log(data, "data");
+            // let response = await user.save();
             if (data.userProductsList) apiResponse = data.userProductsList;
-            console.log("Updated user", response);
+            // console.log("Updated user", response);
           } catch (error) {
             // alert(error)
             // console.log(error);
@@ -159,26 +147,16 @@ const apiLogin =
         default:
           return;
       }
-      console.log(
-        onSuccess,
-        !apiError,
-        onSuccess && !apiError,
-        "onSuccess && !apiError"
-      );
-      console.log(JSON.stringify(apiError), "apiError , onError");
 
       if (onSuccess && !apiError && apiResponse !== null) {
-        console.log(await apiResponse, "apiResponse");
         await dispatch({ type: onSuccess, payload: apiResponse });
       }
-      console.log(apiError, "apiError");
       if (apiError && onError) {
-        console.log(apiError, "apiError");
         dispatch({ type: onError, payload: JSON.stringify(apiError) });
       }
       apiResponse = null;
       apiError = "";
-      dispatch(changeRequestCounter(0))
+      dispatch(changeRequestCounter(0));
     })();
     // } catch (error) {
 

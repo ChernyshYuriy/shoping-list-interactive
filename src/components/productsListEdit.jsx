@@ -20,7 +20,11 @@ import "../css/button.css";
 import SearchByLater from "./ui/searchByLater";
 // import Checkbox from "./ui/checkbox";
 import BottomActionBtn from "./shoppingList/bottomActionBtn";
-import { editShoppingList, getShoppingList, setActiveListId } from "./../store/shoppingList";
+import {
+  editShoppingList,
+  getShoppingList,
+  setActiveListId,
+} from "./../store/shoppingList";
 import { Link } from "react-router-dom";
 import Styles_End_Shopping from "../css/popupEndShopping.module.css";
 import Styles_Product_Edit from "../css/popupAddProduct.module.css";
@@ -29,9 +33,6 @@ import NotSelectedProduct from "./shoppingList/NotSelectedProduct";
 class ProductListEdit extends Component {
   constructor(props) {
     super(props);
-
-    console.log("constructor");
-    console.log(props.params);
     this.title = React.createRef();
     this.product_name = React.createRef();
     this.product_desc = React.createRef();
@@ -45,10 +46,8 @@ class ProductListEdit extends Component {
     extraParams: [],
   };
   async componentDidMount() {
-    const getPathId = (thePath) =>{
-    console.log(thePath, 'thePath');
-     return thePath.substring(thePath.lastIndexOf("/") + 1);}
-    console.log(getPathId(window.location.href), "id window  asoifhopasifhpoafh opasfh opas fsafoi npiasf fsapifspan fspsafasfafs");
+    const getPathId = (thePath) =>
+      thePath.substring(thePath.lastIndexOf("/") + 1);
     if (
       (this.props.config && this.props.config.useActiveShoppingList) ||
       this.props.config.combineActiveShoppingList
@@ -60,7 +59,11 @@ class ProductListEdit extends Component {
       await this.props.setActiveListId(getPathId(window.location.href));
 
       await this.props.getShoppingList([
-        { method: "equalTo", data: getPathId(window.location.href), key: "objectId" },
+        {
+          method: "equalTo",
+          data: getPathId(window.location.href),
+          key: "objectId",
+        },
       ]);
     }
     await this.productConstructor();
@@ -731,5 +734,5 @@ export default connect(mapStateToProps, {
   updateShoppingListInUserData,
   editShoppingList,
   setActiveListId,
-getShoppingList
+  getShoppingList,
 })(ProductListEdit);

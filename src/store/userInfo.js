@@ -23,12 +23,11 @@ const user = createSlice({
     // },
     afterLogin: (user, action) => {
       const userData = JSON.parse(action.payload);
-      console.log(
-        action.payload,
-        "action.payload action.payload action.payload action.payload action.payload"
-      );
+      // console.log(
+      //   action.payload,
+      //   "action.payload action.payload action.payload action.payload action.payload"
+      // );
       // user = Object.assign(user, action.payload);
-      console.log(action.payload, "action.payload", userData, "user");
       // const userData = JSON.parse(action.payload)
       user.objectId = userData.objectId;
       user.nickName = userData.username;
@@ -57,14 +56,9 @@ const user = createSlice({
       user.userProductsList = action.payload.userProductsList;
     },
     addProductToList(user, action) {
-      console.log(action.payload, "action.payload");
       user.userProductsList = [...user.userProductsList, action.payload];
     },
     addShoppingList(user, action) {
-      console.log(
-        action.payload,
-        "action.payload ~!@`````11111111111111111111111"
-      );
       const { title, lastEdit, objectId } = action.payload;
       user.userShoppingLists = [
         ...user.userShoppingLists,
@@ -72,19 +66,8 @@ const user = createSlice({
       ];
     },
     deleteShoppingList(user, action) {
-      console.log(
-        JSON.parse(action.payload).objectId,
-        // [
-        //   {
-        //     id: "1oDrRzKASK",
-        //     title: "New shopping list",
-        //     lastEdit: 1642780837688,
-        //   },
-        // ].filter((list) => (list.id === JSON.parse(action.payload).objectId)),
-        "action.payload"
-      );
       user.userShoppingLists = user.userShoppingLists.filter(
-        (list) => (list.id !== JSON.parse(action.payload).objectId)
+        (list) => list.id !== JSON.parse(action.payload).objectId
       );
     },
     // setShortUserList: (user, action) => {
@@ -206,8 +189,6 @@ export const updateShoppingListInUserData = (id, list) =>
 // });
 
 export const isUserAlreadyHaveAccount = (nickName, pinCode, userList) => {
-  console.log(userList, "shortUserList");
-
   return userList
     ? userList.filter(
         (user) =>

@@ -32,7 +32,7 @@ class SearchByLater extends Component {
     if (findProductTitle !== null && !!searchBlock) {
       document.getElementsByTagName("html")[0].scrollTop =
         searchBlock.offsetTop + 5;
-        console.log(findProductTitle.message !== undefined && findProductTitle.title.length === 1, findProductTitle.message);
+        // console.log(findProductTitle.message !== undefined && findProductTitle.title.length === 1, findProductTitle.message);
         if (findProductTitle.message !== undefined && findProductTitle.title.length === 1) {
           this.setState({ message: findProductTitle.message });
         }else{

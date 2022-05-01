@@ -92,7 +92,7 @@ function App({ t }) {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  console.log(store.getState(), "store");
+  // console.log(store.getState(), "store");
 
   return (
     <div className="App">

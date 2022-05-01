@@ -37,9 +37,9 @@ class ShoppingListDisplay extends Component {
     nextPageUrl: "/",
   };
 
-  componentDidMount() {
-    console.log(this.props.list, this.props.id, "this.props.list");
-  }
+  // componentDidMount() {
+  //   console.log(this.props.list, this.props.id, "this.props.list");
+  // }
   async componentDidUpdate(prevProps) {
     if (
       prevProps.shoppingList !== this.props.shoppingList &&
@@ -132,10 +132,6 @@ class ShoppingListDisplay extends Component {
   };
 
   render() {
-    console.log(
-      this.props.userShoppingList,
-      "this.props.userShoppingList this.props.userShoppingList"
-    );
 
     return (
       <React.Fragment>

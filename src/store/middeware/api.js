@@ -41,7 +41,6 @@ const api =
 
     dispatch(changeRequestCounter(1))
 
-    console.log(getState(), 'getState()');
 
     try {
       await (async () => {
@@ -55,15 +54,6 @@ const api =
           try {
             const result = await myNewObject.save();
             // Access the Parse Object attributes using the .GET method
-            console.log(
-              "object myCustomKey1Name: ",
-              result.get("myCustomKey1Name")
-            );
-            console.log(
-              "object myCustomKey2Name: ",
-              result.get("myCustomKey2Name")
-            );
-            console.log("ParseObject created", result);
             apiResponse = {
               ...data,
               objectId: result.id,
@@ -165,7 +155,6 @@ const api =
                 // Ex: response.get("<ATTRIBUTE_NAME>")
                 // Access the Parse Object attributes using the .GET method
                 // console.log(response.get("myCustomKey1Name"));
-                console.log("MyCustomClassName updated", response);
               } catch (error) {
                 console.error("Error while updating ", error);
               }
@@ -182,7 +171,6 @@ const api =
               const response = await object.destroy();
               apiResponse = JSON.stringify(response)
 
-              console.log('Deleted ParseObject', response);
             } catch (error) {
               console.error('Error while deleting ParseObject', error);
             }

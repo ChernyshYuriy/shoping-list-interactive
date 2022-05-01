@@ -32,13 +32,13 @@ const appConfigData = createSlice({
       }
     },
     changeRequestCounter: (data, action) => {
-      console.log(data.requestsInProcess, 'data.requestsInProcess');
+      // console.log(data.requestsInProcess, 'data.requestsInProcess');
       if (!!action.payload) {
         data.requestsInProcess += 1
       }else{
         data.requestsInProcess -= 1
         if (!data.requestsInProcess && !!data.loading.status) {
-          console.log(data.requestsInProcess, 'data.requestsInProcess');
+          // console.log(data.requestsInProcess, 'data.requestsInProcess');
           data.loading = {
             status: false,
             message: "Data_processing",

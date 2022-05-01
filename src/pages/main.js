@@ -5,7 +5,7 @@ import { changePopup } from "../store/appConfigData";
 import ShoppingListContainer from "./../components/shoping-lists-container";
 class MainPage extends Component {
   componentDidMount() {
-    console.log(this.props.userId, "this.props.userId");
+    // console.log(this.props.userId, "this.props.userId");
     if (this.props.userId) {
       this.props.changePopup({ visibility: false });
     }
