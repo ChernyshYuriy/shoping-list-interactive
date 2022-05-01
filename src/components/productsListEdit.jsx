@@ -45,9 +45,10 @@ class ProductListEdit extends Component {
     extraParams: [],
   };
   async componentDidMount() {
-    const getPathId = (thePath) =>
-      thePath.substring(thePath.lastIndexOf("/") + 1);
-    console.log(getPathId(window.location.href), "safasfafs");
+    const getPathId = (thePath) =>{
+    console.log(thePath, 'thePath');
+     return thePath.substring(thePath.lastIndexOf("/") + 1);}
+    console.log(getPathId(window.location.href), "id window  asoifhopasifhpoafh opasfh opas fsafoi npiasf fsapifspan fspsafasfafs");
     if (
       (this.props.config && this.props.config.useActiveShoppingList) ||
       this.props.config.combineActiveShoppingList
@@ -56,10 +57,10 @@ class ProductListEdit extends Component {
         status: true,
         message: "attach to account shopping list",
       });
-      await this.props.setActiveListId(getPathId);
+      await this.props.setActiveListId(getPathId(window.location.href));
 
       await this.props.getShoppingList([
-        { method: "equalTo", data: getPathId, key: "objectId" },
+        { method: "equalTo", data: getPathId(window.location.href), key: "objectId" },
       ]);
     }
     await this.productConstructor();
