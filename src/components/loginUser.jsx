@@ -197,11 +197,6 @@ class LoginUser extends Component {
       if (this.localStorageNickName)
         // document.getElementById("nickName").value = localStorageNickName;
         this.nickName.current.value = this.state.nickName;
-      console.log(
-        this.nickName,
-        "this.nickName.current.value UPD",
-        this.state.nickName
-      );
     }
   }
 
@@ -294,7 +289,6 @@ class LoginUser extends Component {
   }
 
   changePopupFunctionality(status) {
-    console.log(this.nickNameRef);
     this.setState({
       popupFunctionalityStatus: status,
     });

@@ -134,9 +134,9 @@ const apiLogin =
             // user.set("email", email);
             // user.set("settings", setting);
             // Saves the user with the updated data
-            // let response = await user.save();
+            let response = await user.save();
             if (data.userProductsList) apiResponse = data.userProductsList;
-            // console.log("Updated user", response);
+            console.log("Updated user", response);
           } catch (error) {
             // alert(error)
             // console.log(error);

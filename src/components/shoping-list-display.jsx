@@ -71,7 +71,6 @@ class ShoppingListDisplay extends Component {
     //   console.log(this.props.shoppingList, "this.props");
     // }
     if (prevProps.userShoppingList !== this.props.userShoppingList) {
-      console.log("userShoppingList IS CHANGED");
       try {
         await this.props.changeLoading({
           status: true,

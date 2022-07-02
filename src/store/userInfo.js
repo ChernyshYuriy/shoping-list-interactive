@@ -64,6 +64,7 @@ const user = createSlice({
         ...user.userShoppingLists,
         { id: objectId, title, lastEdit },
       ];
+      updateShoppingListInUserData(user.objectId,user.userShoppingLists)
     },
     deleteShoppingList(user, action) {
       user.userShoppingLists = user.userShoppingLists.filter(

@@ -27,7 +27,7 @@ class SearchByLater extends Component {
     const searchBlock = document.querySelector(
       '[data-id="' + findProductTitle.title.toLowerCase() + '"]'
     );
-    console.log(findProductTitle, searchPhrase, searchBlock);
+    // console.log(findProductTitle, searchPhrase, searchBlock);
 
     if (findProductTitle !== null && !!searchBlock) {
       document.getElementsByTagName("html")[0].scrollTop =

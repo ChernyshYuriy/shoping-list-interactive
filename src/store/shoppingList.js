@@ -12,7 +12,7 @@ const shoppingList = createSlice({
   reducers: {
     setActiveListId: (data, action) => {
       data.activeListId = action.payload;
-      console.log("setActiveListId is set");
+      // console.log("setActiveListId is set");
     },
     setNewShoppingList: (data, action) => {
       // activeListTitle = action.payload)[0].title
@@ -20,7 +20,7 @@ const shoppingList = createSlice({
       // console.log(action.payload, 'actionactionactionactionactionactionactionactionactionactionactionactionactionactionactionactionactionactionactionactionactionactionaction');
       // console.log(JSON.parse(action.payload), "action.payload");
       const { listProducts, lastEdit, title } = JSON.parse(action.payload)[0] || JSON.parse(action.payload);
-      console.log(JSON.parse(action.payload)[0] || JSON.parse(action.payload), 'JSON.parse(action.payload)[0] || JSON.parse(action.payload)');
+      // console.log(JSON.parse(action.payload)[0] || JSON.parse(action.payload), 'JSON.parse(action.payload)[0] || JSON.parse(action.payload)');
       data.activeShoppingList = listProducts;
       data.activeListTitle = title;
       data.lastEdit = lastEdit;
