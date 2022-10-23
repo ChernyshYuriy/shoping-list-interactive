@@ -42,8 +42,8 @@ class ShoppingListDisplay extends Component {
   // }
   async componentDidUpdate(prevProps) {
     if (
-      prevProps.shoppingList !== this.props.shoppingList &&
-      !!this.props.shoppingList.length
+      prevProps.shoppingList !== this.props?.shoppingList &&
+      !!this.props?.shoppingList.length
     ) {
       // console.log(
       //   this.state.nextPageUr,

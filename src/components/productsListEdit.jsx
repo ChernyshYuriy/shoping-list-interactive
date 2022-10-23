@@ -70,8 +70,12 @@ class ProductListEdit extends Component {
   }
 
   productConstructor = async () => {
-    if (this.props.config && this.props.config.useActiveShoppingList) {
-      await this.setState({ productList: this.props.shoppingList });
+    if (
+      this.props.config &&
+      this.props.config.useActiveShoppingList &&
+      this.props?.shoppingList
+    ) {
+      await this.setState({ productList: this.props?.shoppingList });
     } else if (
       this.props.config &&
       this.props.config.combineActiveShoppingList
@@ -120,16 +124,18 @@ class ProductListEdit extends Component {
       desc: product.desc,
       extraParams: product.extraParams,
     };
-    return !!this.props.shoppingList.filter((listProduct) => {
-      if (
-        listProduct.title === product.title &&
-        listProduct.desc === product.desc
-      ) {
-        return true;
-      } else {
-        return false;
-      }
-    }).length;
+    if (this.props?.shoppingList) {
+      return !!this.props?.shoppingList.filter((listProduct) => {
+        if (
+          listProduct.title === product.title &&
+          listProduct.desc === product.desc
+        ) {
+          return true;
+        } else {
+          return false;
+        }
+      }).length;
+    }
   };
 
   openAddProductPopup = () => {
@@ -317,17 +323,11 @@ class ProductListEdit extends Component {
     const titleInput = (
       <div className="column">
         <label htmlFor="title">{t("List name")}</label>
-        <input
-          className="input"
-          id="title"
-          type="text"
-          ref={this.title}
-          // placeholder={t("name_shopping_list")}
-        />
+        <input className="input" id="title" type="text" ref={this.title} />
       </div>
     );
     const titleNoEditing = (
-      <div>{`${t("Name")}: ${this.props.shoppingListTitle}`}</div>
+      <div>{`${t("Name")}: ${this.props.shoppingListTitle || ""}`}</div>
     );
 
     if (this.props.config.showTitle) {
